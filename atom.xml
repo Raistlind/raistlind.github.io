@@ -4,7 +4,7 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2018-06-15T23:01:41+08:00</updated>
+  <updated>2018-06-15T23:09:00+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -20,6 +20,8 @@
     <id>http://www.krynn.cn/15290706573569.html</id>
     <content type="html"><![CDATA[
 <h5 id="toc_0">test</h5>
+
+<p><img src="!%5B%5D()" alt=""/></p>
 
 ]]></content>
   </entry>
