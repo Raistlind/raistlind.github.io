@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[The 10th Art]]></title>
+  <link href="http://www.krynn.cn/atom.xml" rel="self"/>
+  <link href="http://www.krynn.cn/"/>
+  <updated>2018-06-15T23:01:41+08:00</updated>
+  <id>http://www.krynn.cn/</id>
+  <author>
+    <name><![CDATA[]]></name>
+    
+  </author>
+  <generator uri="http://www.coderforart.com/">CoderForArt</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[test]]></title>
+    <link href="http://www.krynn.cn/15290706573569.html"/>
+    <updated>2018-06-15T21:50:57+08:00</updated>
+    <id>http://www.krynn.cn/15290706573569.html</id>
+    <content type="html"><![CDATA[
+<h5 id="toc_0">test</h5>
+
+]]></content>
+  </entry>
+  
+</feed>
