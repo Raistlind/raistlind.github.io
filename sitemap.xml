@@ -2,7 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
   <loc>http://www.krynn.cn/</loc>
-  <lastmod>2018-06-15T23:49:08+08:00</lastmod>
+  <lastmod>2018-06-16T08:05:51+08:00</lastmod>
+</url>
+
+<url>
+  <loc>http://www.krynn.cn/15291074340802.html</loc>
+  <lastmod>2018-06-16T08:03:54+08:00</lastmod>
 </url>
 
 <url>
@@ -11,6 +16,14 @@
 </url>
 
 
+
+<url>
+  <loc>http://www.krynn.cn/Business.html</loc>
+</url>
+
+<url>
+  <loc>http://www.krynn.cn/Operation.html</loc>
+</url>
 
 
 </urlset>
