@@ -4,7 +4,7 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2018-06-16T08:04:51+08:00</updated>
+  <updated>2018-06-16T23:18:16+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -13,38 +13,14 @@
   <generator uri="http://www.mweb.im/">MWeb</generator>
   
   <entry>
-    <title type="html"><![CDATA[Linux常用命令]]></title>
-    <link href="http://www.krynn.cn/15291074340802.html"/>
-    <updated>2018-06-16T08:03:54+08:00</updated>
-    <id>http://www.krynn.cn/15291074340802.html</id>
-    <content type="html"><![CDATA[
-
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[test]]></title>
-    <link href="http://www.krynn.cn/15290706573569.html"/>
-    <updated>2018-06-15T21:50:57+08:00</updated>
-    <id>http://www.krynn.cn/15290706573569.html</id>
+    <link href="http://www.krynn.cn/15291621462331.html"/>
+    <updated>2018-06-16T23:15:46+08:00</updated>
+    <id>http://www.krynn.cn/15291621462331.html</id>
     <content type="html"><![CDATA[
-<h5 id="toc_0">test</h5>
+<h2 id="toc_0">hello world</h2>
 
-<p><img src="http://oukyvrh16.bkt.clouddn.com/17-8-13/44645917.jpg" alt="130402161P2"/><br/>
-<img src="!%5B%5D()" alt=""/></p>
-
-<p><img src="media/15290706573569/130402161P2.jpg" alt="130402161P2"/><br/>
-[]()</p>
-
-<h1 id="toc_1">test</h1>
-
-<h5 id="toc_2">test</h5>
-
-<p><img src="http://oukyvrh16.bkt.clouddn.com/17-8-13/44645917.jpg" alt="130402161P2"/><br/>
-<img src="!%5B%5D()" alt=""/></p>
-
-<p><img src="http://oukyvrh16.bkt.clouddn.com/130402161P2.jpg" alt="130402161P2"/><br/>
-[]()</p>
+<p>测试一下生成静态网站</p>
 
 ]]></content>
   </entry>
