@@ -4,13 +4,35 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2018-06-16T23:29:44+08:00</updated>
+  <updated>2018-06-17T23:12:31+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
     
   </author>
   <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[蓝鲸智云-CMDB源码解读]]></title>
+    <link href="http://www.krynn.cn/15292476343143.html"/>
+    <updated>2018-06-17T23:00:34+08:00</updated>
+    <id>http://www.krynn.cn/15292476343143.html</id>
+    <content type="html"><![CDATA[
+<p>首先看一下蓝鲸CMDB的官方架构图<br/>
+<img src="http://oukyvrh16.bkt.clouddn.com/15292479035199.png" alt=""/></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[]]></title>
+    <link href="http://www.krynn.cn/15292474610477.html"/>
+    <updated>2018-06-17T22:57:41+08:00</updated>
+    <id>http://www.krynn.cn/15292474610477.html</id>
+    <content type="html"><![CDATA[
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[test]]></title>
