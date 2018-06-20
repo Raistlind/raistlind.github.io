@@ -4,7 +4,7 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2018-06-19T23:29:25+08:00</updated>
+  <updated>2018-06-20T22:54:43+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -18,38 +18,32 @@
     <updated>2018-06-17T23:00:34+08:00</updated>
     <id>http://www.krynn.cn/15292476343143.html</id>
     <content type="html"><![CDATA[
-<p>先来看一下蓝鲸的背景。</p>
+<p>蓝鲸是腾讯游戏运维部门开发出来的一个IT运维平台，主要围绕应用运维工作，提供一系列的工具。具体包括：作业平台、集成平台、管控平台、数据平台、配置平台等。这次要分析的是里面最基础的配置平台，它主要负责运维环境里所有CI、以及CI的关系管理，并为其它平台提供统一的资源视图。</p>
+
+<p>蓝鲸配置平台，即CMDB，是蓝鲸系列产品中第一个开源产品。当前版本是3.0，基于golang语言全新重构，完全基于微服务架构风格开发，小小好奇心驱动去看看。</p>
 
 <ol>
-<li><p>首先看一下蓝鲸CMDB的官方架构图<br/>
+<li><p>首先看一眼蓝鲸CMDB的官方架构图<br/>
 <img src="http://oukyvrh16.bkt.clouddn.com/15292479035199.png" alt=""/></p></li>
-<li><p>再看看<br/>
-下次再写</p></li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[]]></title>
-    <link href="http://www.krynn.cn/15292474610477.html"/>
-    <updated>2018-06-17T22:57:41+08:00</updated>
-    <id>http://www.krynn.cn/15292474610477.html</id>
-    <content type="html"><![CDATA[
+<ul>
+<li>典型的前后台分层，业务逻辑与原子服务解耦的分层设计。</li>
+<li>最上面展现层，基于gin和vue.js实现web服务。</li>
+<li>前后台中间设置api层，目前主流的前后台交互通过专用apiserver进行业务逻辑的包装和转发方式，k8s，promuthues等都是这样。前台只负责页面渲染、数据呈现和人机交互。后台服务层负责业务逻辑处理和数据持久化。</li>
+<li>然后是服务层，里面又分成业务场景层和资源管理层。
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[test]]></title>
-    <link href="http://www.krynn.cn/15291621462331.html"/>
-    <updated>2018-06-16T23:15:46+08:00</updated>
-    <id>http://www.krynn.cn/15291621462331.html</id>
-    <content type="html"><![CDATA[
-<h2 id="toc_0">hello world</h2>
+<ul>
+<li>顾名思义，业务场景层是与资源管理相关场景所需的功能域，如拓扑呈现。拓扑呈现需要根据资源模型和关系定义，维护CI间的关系路径，这里面包含了大量的业务逻辑，如依赖关系校验、承载规则等等，跟业务强相关的东西。随着业务的深入，变化会比较大，属于扩展性要求高的一层，剥离出来单独分层比较好。目前已提取的场景包括：管理、事件、进程、主机、拓扑、数据采集等几个服务；</li>
+<li>下面是资源管理层，这层的功能相对比较稳定，属于原子性的功能和模型，受业务影响小，以稳定性、性能、可靠性等为主要考量。主要把管理对象抽象成主机、进程和通用对象三类，这种抽象方法IT针对性太强，做一些行业应用需要自己扩展，另外还有一个审计服务。</li>
+</ul></li>
+<li><p>最下层为存储层，主要是MongoDB主数据库、Redis缓存，以及用ZooKeeper来做服务注册发现以及服务配置管理。</p></li>
+</ul>
 
-<p>测试一下生成静态网站<br/>
-再来一行</p>
+<ol>
+<li>再看看
+下次再写</li>
+</ol>
 
 ]]></content>
   </entry>
