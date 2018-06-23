@@ -4,7 +4,7 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2018-06-20T22:54:43+08:00</updated>
+  <updated>2018-06-23T21:57:18+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -23,7 +23,7 @@
 <p>蓝鲸配置平台，即CMDB，是蓝鲸系列产品中第一个开源产品。当前版本是3.0，基于golang语言全新重构，完全基于微服务架构风格开发，小小好奇心驱动去看看。</p>
 
 <ol>
-<li><p>首先看一眼蓝鲸CMDB的官方架构图<br/>
+<li><p>首先看一眼蓝鲸CMDB的官方逻辑架构图<br/>
 <img src="http://oukyvrh16.bkt.clouddn.com/15292479035199.png" alt=""/></p></li>
 </ol>
 
@@ -41,7 +41,7 @@
 </ul>
 
 <ol>
-<li>再看看
+<li>再看看实现架构/代码工程
 下次再写</li>
 </ol>
 
