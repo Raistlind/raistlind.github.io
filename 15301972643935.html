@@ -137,7 +137,7 @@
 </ul></li>
 </ul>
 
-<h2 id="toc_1">主要API</h2>
+<h2 id="toc_1">主要概念</h2>
 
 <h3 id="toc_2">kmodule.xml</h3>
 
@@ -148,7 +148,34 @@
 <li>package为drl文件所在resource目录下的路径，drl文件中的package与实际路径不一定相同，默认情况下会扫描resources目录下所有规则文件</li>
 <li>kbase用default属性来定义默认kbase，默认kbase不用名称也可以查找，只能定义一个default，不建议使用，还是用名称为主</li>
 <li>kbase下面可以有多个ksession，名称必填，且唯一</li>
-<li></li>
+</ul>
+
+<h3 id="toc_3">Kie</h3>
+
+<ul>
+<li>KIE=knowledge is everything</li>
+<li>KIE包括Drools、OptaPlanner、UberFire、jBPM四个项目，KIE本身是四个项目公共的一些接口定义，具体实现在各项目中</li>
+<li>KIE的生命周期：
+
+<ul>
+<li>编写：编写规则文件，如：drl、bpmn2、决策表、实体类等</li>
+<li>构建：变成一个可发布部署的文件，通常是jar</li>
+<li>测试、部署</li>
+<li>使用：通过KieContainer对jar进行解析创建KieSession</li>
+<li>执行：KieSession的API与Drools引擎进行交互，执行规则</li>
+<li>交互：根据业务需要提供命令行或者UI交互</li>
+<li>管理：管理KieSession或KieContainer</li>
+</ul></li>
+</ul>
+
+<h3 id="toc_4">FACT对象</h3>
+
+<ul>
+<li>是一个特殊的JavaBean，有getter/setter方法</li>
+<li>放置于工作内存中</li>
+<li>是应用数据和规则间的桥梁</li>
+<li>按引用传递</li>
+<li>facthandler可用于处理fact对象</li>
 </ul>
 
 
