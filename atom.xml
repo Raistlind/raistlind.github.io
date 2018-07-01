@@ -4,13 +4,49 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2018-06-27T23:27:09+08:00</updated>
+  <updated>2018-07-01T22:08:10+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
     
   </author>
   <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[Drools简介]]></title>
+    <link href="http://www.krynn.cn/15301972643935.html"/>
+    <updated>2018-06-28T22:47:44+08:00</updated>
+    <id>http://www.krynn.cn/15301972643935.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">Drools组成部分</h2>
+
+<ul>
+<li>Drools规则文件，drl</li>
+<li>解释执行规则，API
+
+<ul>
+<li>规则编译</li>
+<li>规则收集</li>
+<li>规则执行</li>
+</ul></li>
+</ul>
+
+<h2 id="toc_1">主要API</h2>
+
+<h3 id="toc_2">kmodule.xml</h3>
+
+<ul>
+<li>文件存储路径如果不指定，KieModuleModelImpl代码里默认会常量固定的为META-INF目录</li>
+<li>kmodule中可以定义多个kbase，分别对应不同drl规则文件</li>
+<li>kbase需要唯一命名，名称字符内容不限</li>
+<li>package为drl文件所在resource目录下的路径，drl文件中的package与实际路径不一定相同，默认情况下会扫描resources目录下所有规则文件</li>
+<li>kbase用default属性来定义默认kbase，默认kbase不用名称也可以查找，只能定义一个default，不建议使用，还是用名称为主</li>
+<li>kbase下面可以有多个ksession，名称必填，且唯一</li>
+<li></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Spring Cloud学习笔记-1]]></title>
