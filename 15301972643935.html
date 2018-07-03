@@ -190,6 +190,13 @@
 <li>ClasspathKieProject：实现了KieProject接口，提供了基于类路径的META-INF/kmodule.xml文件构造KieModule的能力，是基于Maven构造Drools组件的基本方法</li>
 </ul>
 
+<h3 id="toc_6">session</h3>
+
+<ul>
+<li>有状态session。默认有状态session。没有调用dispose方法前，维持会议状态，可以进行多次操作</li>
+<li>无状态session。不用调用dispost进行Session的关闭。它不用fireallrules方法。只用excute方法进行执行。每次交互不保持状态。本质上是对有状态session的封装，每次调用后，方法内都会dispose。用在单次操作场景，如校验</li>
+</ul>
+
 
     
 
