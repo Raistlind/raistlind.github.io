@@ -82,6 +82,8 @@
             <li><a href="Spring%20Cloud.html">Spring Cloud</a></li>
         
             <li><a href="Drools.html">Drools</a></li>
+        
+            <li><a href="MacOS.html">MacOS</a></li>
          
 
       </ul>
@@ -173,8 +175,77 @@
 <h2 id="toc_5">Eureka</h2>
 
 <ul>
-<li>Eureka Server 注册中心</li>
-<li>Eureka Client 进行服务注册</li>
+<li><p>Eureka Server 注册中心</p>
+
+<ul>
+<li>EurekaApplication.java需要加入注解<code>@EnableEurekaServer</code></li>
+<li><p>配置application.yml</p>
+
+<pre><code>eureka:
+    client:
+        service-url:
+        defaultZone: http://localhost:8761/eureka
+        register-with-eureka: false //关闭自己做为客户端注册
+    server:
+        enable-self-preservation: false //关闭客户端检测保护
+spring:
+    application:
+        name: eureka
+server:
+    port: 8761
+</code></pre></li>
+<li><p>将eureka放入后台运行</p>
+
+<pre><code>//在命令行打包
+$ mvn clean package
+//放入后台执行
+$ nohup java -jar target/eureka-0.0.1-SNAPSHOT.jar &gt; /dev/null 2&gt;&amp;1 &amp;
+</code></pre></li>
+</ul></li>
+</ul>
+
+<ul>
+<li><p>Eureka Client 进行服务注册</p>
+
+<ul>
+<li>引入依赖，靠idea不靠谱，2.0.0正式版以上，会漏了最后一个，让我调测半天</li>
+</ul>
+
+<pre><code>    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+        &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+</code></pre>
+
+<ul>
+<li>application.yml里配上注册中心地址</li>
+</ul>
+
+<pre><code>eureka:
+    client:
+        serviceUrl:
+        defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    hostname: clientName //设置注册记录里的Status列里的链接地址
+spring:
+    application:
+        name: customer-service
+</code></pre>
+
+<ul>
+<li>在启动的主类加<code>@EnableDiscoveryClient</code>注解</li>
+</ul></li>
 </ul>
 
                         
@@ -257,6 +328,8 @@
             <a href="Spring%20Cloud.html"><strong>Spring Cloud</strong></a>
         
             <a href="Drools.html"><strong>Drools</strong></a>
+        
+            <a href="MacOS.html"><strong>MacOS</strong></a>
          
         </p>
 
@@ -271,6 +344,12 @@
                 <div class="side-content">
                 <ul class="posts-list">
 	      
+		      
+			      <li class="post">
+			        <a href="15307181630698.html">Mac常用命令</a>
+			      </li>
+		     
+		  
 		      
 			      <li class="post">
 			        <a href="15301972643935.html">Drools简介</a>

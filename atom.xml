@@ -4,13 +4,33 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2018-07-03T23:09:22+08:00</updated>
+  <updated>2018-07-05T23:30:07+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
     
   </author>
   <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac常用命令]]></title>
+    <link href="http://www.krynn.cn/15307181630698.html"/>
+    <updated>2018-07-04T23:29:23+08:00</updated>
+    <id>http://www.krynn.cn/15307181630698.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">查找端口占用</h2>
+
+<pre><code>$ lsof -i:8080 //查询该端口8080的进程id
+$ kill 12345   //杀掉该id进程
+</code></pre>
+
+<h2 id="toc_1">查看进程状态</h2>
+
+<pre><code>$ ps -ef | grep eureka
+</code></pre>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Drools简介]]></title>
@@ -91,6 +111,20 @@
 <li>无状态session。不用调用dispost进行Session的关闭。它不用fireallrules方法。只用excute方法进行执行。每次交互不保持状态。本质上是对有状态session的封装，每次调用后，方法内都会dispose。用在单次操作场景，如校验</li>
 </ul>
 
+<h3 id="toc_7">规则文件</h3>
+
+<ul>
+<li>.drl文件，文本文件，存放用户自定义函数、数据对象及自定义查询等</li>
+<li>Drools编译器对此文件进行编译</li>
+<li>package：必须放在第一行，不要求跟目录层级一致</li>
+<li>import：跟java语法一样，区别在可以引入静态方法import static xxxx或import function xxxx</li>
+<li>global：定义全局的服务，如：global xxx.xxx.Xxx xxx，后面就可以直接使用xxx</li>
+<li>function：定义方法，function String xxx() {}，后续可以直接使用该方法</li>
+<li>queries：类似function</li>
+<li>rules：定义具体的规则。包括：agenda-group（属性）,when（条件，为true时执行后续，每个条件是and关系）, then（执行）, end等。规则也可以继承</li>
+<li>idea自带drools插件JBoss Drools Support</li>
+</ul>
+
 ]]></content>
   </entry>
   
@@ -162,8 +196,77 @@
 <h2 id="toc_5">Eureka</h2>
 
 <ul>
-<li>Eureka Server 注册中心</li>
-<li>Eureka Client 进行服务注册</li>
+<li><p>Eureka Server 注册中心</p>
+
+<ul>
+<li>EurekaApplication.java需要加入注解<code>@EnableEurekaServer</code></li>
+<li><p>配置application.yml</p>
+
+<pre><code>eureka:
+    client:
+        service-url:
+        defaultZone: http://localhost:8761/eureka
+        register-with-eureka: false //关闭自己做为客户端注册
+    server:
+        enable-self-preservation: false //关闭客户端检测保护
+spring:
+    application:
+        name: eureka
+server:
+    port: 8761
+</code></pre></li>
+<li><p>将eureka放入后台运行</p>
+
+<pre><code>//在命令行打包
+$ mvn clean package
+//放入后台执行
+$ nohup java -jar target/eureka-0.0.1-SNAPSHOT.jar &gt; /dev/null 2&gt;&amp;1 &amp;
+</code></pre></li>
+</ul></li>
+</ul>
+
+<ul>
+<li><p>Eureka Client 进行服务注册</p>
+
+<ul>
+<li>引入依赖，靠idea不靠谱，2.0.0正式版以上，会漏了最后一个，让我调测半天</li>
+</ul>
+
+<pre><code>    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+        &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+</code></pre>
+
+<ul>
+<li>application.yml里配上注册中心地址</li>
+</ul>
+
+<pre><code>eureka:
+    client:
+        serviceUrl:
+        defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    hostname: clientName //设置注册记录里的Status列里的链接地址
+spring:
+    application:
+        name: customer-service
+</code></pre>
+
+<ul>
+<li>在启动的主类加<code>@EnableDiscoveryClient</code>注解</li>
+</ul></li>
 </ul>
 
 ]]></content>
