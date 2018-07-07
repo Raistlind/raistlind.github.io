@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  MacOS - The 10th Art
+  The 10th Art
   
   </title>
   
@@ -106,23 +106,71 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
-                <a class="clearlink" href="15307181630698.html">
+                <a class="clearlink" href="15301075535592.html">
                 
-                  <h1>Mac常用命令</h1>
+                  <h1>Spring Cloud学习笔记-1.背景概述</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
                         
-                        	<h2 id="toc_0">查找端口占用</h2>
+                        	<h2 id="toc_0">微服务是什么</h2>
 
-<pre><code>$ lsof -i:8080 //查询该端口8080的进程id
-$ kill 12345   //杀掉该id进程
-</code></pre>
+<ul>
+<li>James Lewis &amp; Martin Fowler 2014年3月25日写的《Microservices》</li>
+<li><a href="http://martinfowler.com/articles/microservices.html">http://martinfowler.com/articles/microservices.html</a></li>
+<li>微服务是一种架构风格，没有强制性，没有标准答案，如同Restful</li>
+<li>微服务特点：
 
-<h2 id="toc_1">查看进程状态</h2>
+<ul>
+<li>一系列微小的服务组成</li>
+<li>一个微服务一个进程</li>
+<li>每个服务提供独立的业务功能</li>
+<li>独立部署</li>
+<li>分布式</li>
+<li>无状态</li>
+<li>被管理</li>
+<li>自动运维</li>
+<li>API/Restful</li>
+</ul></li>
+</ul>
 
-<pre><code>$ ps -ef | grep eureka
-</code></pre>
+<h2 id="toc_1">单体架构优点和缺点</h2>
+
+<ul>
+<li>优点：容易测试和部署</li>
+<li>缺点：代码维护困难，发布依赖多，构建时间长，稳定性易受单个模块影响，扩展性不够，开发效率低</li>
+<li>其实微服务跟单体架构比没什么意思，毕竟不是一个时代的模式。分布式跟微服务才比较困扰</li>
+</ul>
+
+<h2 id="toc_2">分布式架构的优点和缺点</h2>
+
+<ul>
+<li>优点：分布式，多个自治的处理单元，不共享主内存，通过网络发送消息合作</li>
+<li>缺点：没有牵引微小化，部分模块仍然较大，存在单体架构的各种缺点</li>
+</ul>
+
+<h2 id="toc_3">微服务架构的主要组件</h2>
+
+<ul>
+<li>服务注册发现，Zookeeper，Eureka</li>
+<li>服务网关，连接内外，提供服务路由，屏蔽后台细节，还会提供限流和容错，监控和日志也可以在这做，用户认证、授权，反爬虫</li>
+<li>前端服务，边缘服务，对后端的服务进行聚合和裁剪
+
+<ul>
+<li>聚合：多个API逻辑进行聚合，减少后端请求数</li>
+<li>裁剪：根据用户环境，返回不一样的服务内容，比如：手机端跟PC端返回不一样的内容</li>
+</ul></li>
+<li>后端服务，提供业务功能</li>
+</ul>
+
+<h2 id="toc_4">Spring Cloud是什么</h2>
+
+<ul>
+<li>是一个开发工具集，包括了多个子项目</li>
+<li>Spring Boot提供开发便利性</li>
+<li>对Netflix开源组件进行封装</li>
+<li>降低了分布式开发门槛</li>
+</ul>
 
                         
                       </div>
@@ -131,10 +179,68 @@ $ kill 12345   //杀掉该id进程
                 <div class="read-more clearfix">
                   <div class="more-left left">
                   
-                    <span class="date">2018/7/4</span>
+                    <span class="date">2018/6/27</span>
                     <span>posted in&nbsp;</span> 
           				  
-          					    <span class="posted-in"><a href='MacOS.html'>MacOS</a></span>
+          					    <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15292476343143.html">
+                
+                  <h1>蓝鲸智云-CMDB源码解读1-架构篇</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<p>蓝鲸是腾讯游戏运维部门开发出来的一个IT运维平台，主要围绕应用运维工作，提供一系列的工具。具体包括：作业平台、集成平台、管控平台、数据平台、配置平台等。这次要分析的是里面最基础的配置平台，它主要负责运维环境里所有CI、以及CI的关系管理，并为其它平台提供统一的资源视图。</p>
+
+<p>蓝鲸配置平台，即CMDB，是蓝鲸系列产品中第一个开源产品。当前版本是3.0，基于golang语言全新重构，完全基于微服务架构风格开发，小小好奇心驱动去看看。</p>
+
+<ol>
+<li><p>首先看一眼蓝鲸CMDB的官方逻辑架构图<br/>
+<img src="http://oukyvrh16.bkt.clouddn.com/15292479035199.png" alt=""/></p></li>
+</ol>
+
+<ul>
+<li>典型的前后台分层，业务逻辑与原子服务解耦的分层设计。</li>
+<li>最上面展现层，基于gin和vue.js实现web服务。</li>
+<li>前后台中间设置api层，目前主流的前后台交互通过专用apiserver进行业务逻辑的包装和转发方式，k8s，promuthues等都是这样。前台只负责页面渲染、数据呈现和人机交互。后台服务层负责业务逻辑处理和数据持久化。</li>
+<li>然后是服务层，里面又分成业务场景层和资源管理层。
+
+<ul>
+<li>顾名思义，业务场景层是与资源管理相关场景所需的功能域，如拓扑呈现。拓扑呈现需要根据资源模型和关系定义，维护CI间的关系路径，这里面包含了大量的业务逻辑，如依赖关系校验、承载规则等等，跟业务强相关的东西。随着业务的深入，变化会比较大，属于扩展性要求高的一层，剥离出来单独分层比较好。目前已提取的场景包括：管理、事件、进程、主机、拓扑、数据采集等几个服务；</li>
+<li>下面是资源管理层，这层的功能相对比较稳定，属于原子性的功能和模型，受业务影响小，以稳定性、性能、可靠性等为主要考量。主要把管理对象抽象成主机、进程和通用对象三类，这种抽象方法IT针对性太强，做一些行业应用需要自己扩展，另外还有一个审计服务。</li>
+</ul></li>
+<li><p>最下层为存储层，主要是MongoDB主数据库、Redis缓存，以及用ZooKeeper来做服务注册发现以及服务配置管理。</p></li>
+</ul>
+
+<ol>
+<li>再看看实现架构/代码工程
+下次再写</li>
+</ol>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2018/6/17</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='BlueKing.html'>BlueKing</a></span>
           				   
                   </div>
                   <div class="more-right right">
@@ -153,7 +259,7 @@ $ kill 12345   //杀掉该id进程
 			<div class="row">
 			  <div class="large-6 columns">
 			  <p class="text-left" style="padding-top:25px;">
-			   
+			   <a href="all.html">&laquo; Prev Page</a>  
 			  </p>
 			  </div>
 			  <div class="large-6 columns">
