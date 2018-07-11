@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  Spring Cloud学习笔记 - The 10th Art
+  Spring Cloud学习笔记-4.Ribbon应用间通信 - The 10th Art
   
   </title>
   
@@ -108,7 +108,7 @@
       <div class="markdown-body article-wrap">
        <div class="article">
           
-          <h1>Spring Cloud学习笔记</h1>
+          <h1>Spring Cloud学习笔记-4.Ribbon应用间通信</h1>
      
         <div class="read-more clearfix">
           <span class="date">2018/7/7</span>
@@ -128,7 +128,54 @@
       </div><!-- article -->
 
       <div class="article-content">
-      
+      <h2 id="toc_0">HTTP VS RPC</h2>
+
+<ul>
+<li>Dubbo定位是RPC框架，可以作为Spring Cloud二进制通信方案</li>
+<li>Spring Cloud是微服务架构下的一站式解决方案</li>
+</ul>
+
+<h2 id="toc_1">REST Template用法</h2>
+
+<ol>
+<li>直接使用RestTemplate，url写死</li>
+<li>用LoadBalancerClient通过应用名称获取url，然后再使用RestTemplate</li>
+<li>用@LoadBalanced，可在restTemplate里使用应用名字</li>
+</ol>
+
+<h2 id="toc_2">客户端负载均衡器：Ribbon</h2>
+
+<ul>
+<li>RestTemplate</li>
+<li>Feign</li>
+<li>Zuul</li>
+</ul>
+
+<h2 id="toc_3">Ribbon主要能力</h2>
+
+<ul>
+<li>服务发现，根据服务名字，找出所有同名实例</li>
+<li>服务选择规则，依据规则策略，从多个服务中选择有效的服务</li>
+<li>服务监听，检测无效的服务，高效去除</li>
+</ul>
+
+<h2 id="toc_4">Ribbon主要组件</h2>
+
+<ul>
+<li>ServerList，获取所有的可用服务</li>
+<li>ServerListFilter：过滤到一部分地址</li>
+<li><p>IRule：选择一个实例</p>
+
+<ul>
+<li>在application.yml里配置选择策略，如：选择随机策略</li>
+</ul>
+
+<pre><code>ORDER:
+    ribbon:
+        NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+</code></pre></li>
+</ul>
+
 
     
 
@@ -232,7 +279,7 @@
 		  
 		      
 			      <li class="post">
-			        <a href="15309599020091.html">Spring Cloud学习笔记</a>
+			        <a href="15309599020091.html">Spring Cloud学习笔记-4.Ribbon应用间通信</a>
 			      </li>
 		     
 		  

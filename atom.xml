@@ -4,7 +4,7 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2018-07-09T22:57:18+08:00</updated>
+  <updated>2018-07-11T23:02:54+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -175,11 +175,58 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Spring Cloud学习笔记]]></title>
+    <title type="html"><![CDATA[Spring Cloud学习笔记-4.Ribbon应用间通信]]></title>
     <link href="http://www.krynn.cn/15309599020091.html"/>
     <updated>2018-07-07T18:38:22+08:00</updated>
     <id>http://www.krynn.cn/15309599020091.html</id>
     <content type="html"><![CDATA[
+<h2 id="toc_0">HTTP VS RPC</h2>
+
+<ul>
+<li>Dubbo定位是RPC框架，可以作为Spring Cloud二进制通信方案</li>
+<li>Spring Cloud是微服务架构下的一站式解决方案</li>
+</ul>
+
+<h2 id="toc_1">REST Template用法</h2>
+
+<ol>
+<li>直接使用RestTemplate，url写死</li>
+<li>用LoadBalancerClient通过应用名称获取url，然后再使用RestTemplate</li>
+<li>用@LoadBalanced，可在restTemplate里使用应用名字</li>
+</ol>
+
+<h2 id="toc_2">客户端负载均衡器：Ribbon</h2>
+
+<ul>
+<li>RestTemplate</li>
+<li>Feign</li>
+<li>Zuul</li>
+</ul>
+
+<h2 id="toc_3">Ribbon主要能力</h2>
+
+<ul>
+<li>服务发现，根据服务名字，找出所有同名实例</li>
+<li>服务选择规则，依据规则策略，从多个服务中选择有效的服务</li>
+<li>服务监听，检测无效的服务，高效去除</li>
+</ul>
+
+<h2 id="toc_4">Ribbon主要组件</h2>
+
+<ul>
+<li>ServerList，获取所有的可用服务</li>
+<li>ServerListFilter：过滤到一部分地址</li>
+<li><p>IRule：选择一个实例</p>
+
+<ul>
+<li>在application.yml里配置选择策略，如：选择随机策略</li>
+</ul>
+
+<pre><code>ORDER:
+    ribbon:
+        NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+</code></pre></li>
+</ul>
 
 ]]></content>
   </entry>
@@ -228,6 +275,15 @@
 <li>关注点分离，界线上下文（DDD），按职责、通用性、粒度等维度分离</li>
 <li>微服务粒度和规模并不好把握，是随业务变化而变化的</li>
 <li>无状态</li>
+</ul>
+
+<h2 id="toc_4">服务拆分方法</h2>
+
+<ul>
+<li>每个微服务都有单独的数据存储</li>
+<li>根据服务特点选择不同结构的数据库类型</li>
+<li>针对边界设计API</li>
+<li>依据边界权衡数据冗余</li>
 </ul>
 
 ]]></content>
