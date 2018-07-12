@@ -135,29 +135,34 @@
 <li>Spring Cloud是微服务架构下的一站式解决方案</li>
 </ul>
 
-<h2 id="toc_1">REST Template用法</h2>
-
-<ol>
-<li>直接使用RestTemplate，url写死</li>
-<li>用LoadBalancerClient通过应用名称获取url，然后再使用RestTemplate</li>
-<li>用@LoadBalanced，可在restTemplate里使用应用名字</li>
-</ol>
-
-<h2 id="toc_2">客户端负载均衡器：Ribbon</h2>
+<h2 id="toc_1">客户端负载均衡器：Ribbon</h2>
 
 <ul>
 <li>RestTemplate</li>
-<li>Feign</li>
+<li>Feign
+
+<ul>
+<li>声明式REST客户端</li>
+<li>采用接口+注解的方式，即定义一个Interface，然后在上面加上注解</li>
+</ul></li>
 <li>Zuul</li>
 </ul>
 
-<h2 id="toc_3">Ribbon主要能力</h2>
+<h2 id="toc_2">Ribbon主要能力</h2>
 
 <ul>
 <li>服务发现，根据服务名字，找出所有同名实例</li>
 <li>服务选择规则，依据规则策略，从多个服务中选择有效的服务</li>
 <li>服务监听，检测无效的服务，高效去除</li>
 </ul>
+
+<h2 id="toc_3">REST Template用法</h2>
+
+<ol>
+<li>直接使用RestTemplate，url写死</li>
+<li>用LoadBalancerClient通过应用名称获取url，然后再使用RestTemplate</li>
+<li>用@LoadBalanced，可在restTemplate里使用应用名字</li>
+</ol>
 
 <h2 id="toc_4">Ribbon主要组件</h2>
 
@@ -175,6 +180,20 @@
         NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
 </code></pre></li>
 </ul>
+
+<h2 id="toc_5">Feign使用方法</h2>
+
+<p>1.增加包依赖</p>
+
+<pre><code>        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-feign&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+<p>2.启动类增加<code>@EnableFeignClients</code>注解<br/>
+3.新建Client Interface，增加<code>@FeignClient(name = &quot;服务名&quot;)</code>注解<br/>
+4.在方法前增加<code>@GetMapping(&quot;/方法名&quot;)</code>注解，明确被调用的方法，这个注解跟被调用端的ServerController的方法有对应关系</p>
 
 
     
