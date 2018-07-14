@@ -138,12 +138,17 @@
 <h2 id="toc_1">客户端负载均衡器：Ribbon</h2>
 
 <ul>
-<li>RestTemplate</li>
+<li>RestTemplate
+
+<ul>
+<li>使用Rest方式调用其它服务</li>
+</ul></li>
 <li>Feign
 
 <ul>
 <li>声明式REST客户端</li>
 <li>采用接口+注解的方式，即定义一个Interface，然后在上面加上注解</li>
+<li>使用时感觉不到是在调用REST，像是在用本地接口，底层还是使用了Ribbon的机制</li>
 </ul></li>
 <li>Zuul</li>
 </ul>
@@ -193,7 +198,7 @@
 
 <p>2.启动类增加<code>@EnableFeignClients</code>注解<br/>
 3.新建Client Interface，增加<code>@FeignClient(name = &quot;服务名&quot;)</code>注解<br/>
-4.在方法前增加<code>@GetMapping(&quot;/方法名&quot;)</code>注解，明确被调用的方法，这个注解跟被调用端的ServerController的方法有对应关系</p>
+4.在方法前增加<code>@GetMapping(&quot;/方法名&quot;)</code>注解，明确被调用的方法，这个注解跟被调用端的ServerController的方法有对应关系，要注意是完整路径对应，不要遗漏被调用类里<code>@RequestMapping</code>定义的路径</p>
 
 
     
@@ -292,6 +297,12 @@
 	      
 		      
 			      <li class="post">
+			        <a href="15315781706116.html">Spring Cloud学习笔记-5.config配置中心</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15311410217445.html">5G概要</a>
 			      </li>
 		     
@@ -315,10 +326,6 @@
 		     
 		  
 		      
-			      <li class="post">
-			        <a href="15307181630698.html">Mac常用命令</a>
-			      </li>
-		     
 		  
 		      
 		  

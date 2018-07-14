@@ -108,6 +108,74 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
+                <a class="clearlink" href="15315781706116.html">
+                
+                  <h1>Spring Cloud学习笔记-5.config配置中心</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">使用方法</h2>
+
+<p>1.pom.xml引入依赖</p>
+
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<p>2.项目主启动文件增加<code>@EnableDiscoveryClient</code>和<code>@EnableConfigServer</code>注解，完成服务注册和开启config server服务</p>
+
+<p>3.在application.yml指定git配置路径</p>
+
+<pre><code>spring:
+  application:
+    name: config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://gitlab-demo.com/6003575/my-config-repo.git
+          username: 6003575
+          password: abcd1234
+          basedir: /Users/daiqiang/Dev/java/springcloud_sell/config-repo
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+</code></pre>
+
+<ul>
+<li>可以通过<code>http://localhost:8082(服务指定端口号)/filename-a.yml</code>文件来检验是否从配置服务器获取到指定配置</li>
+<li>文件名有规则，如：/{label}/{name}-{profiles}.yml，label指分支，name为原文件名，profiles为环境，后面为扩展名</li>
+<li>本地git仓库路径可以通过<code>basedir</code>参数指定</li>
+</ul>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2018/7/14</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
                 <a class="clearlink" href="15309599020091.html">
                 
                   <h1>Spring Cloud学习笔记-4.Ribbon应用间通信</h1>
@@ -125,12 +193,17 @@
 <h2 id="toc_1">客户端负载均衡器：Ribbon</h2>
 
 <ul>
-<li>RestTemplate</li>
+<li>RestTemplate
+
+<ul>
+<li>使用Rest方式调用其它服务</li>
+</ul></li>
 <li>Feign
 
 <ul>
 <li>声明式REST客户端</li>
 <li>采用接口+注解的方式，即定义一个Interface，然后在上面加上注解</li>
+<li>使用时感觉不到是在调用REST，像是在用本地接口，底层还是使用了Ribbon的机制</li>
 </ul></li>
 <li>Zuul</li>
 </ul>
@@ -180,7 +253,7 @@
 
 <p>2.启动类增加<code>@EnableFeignClients</code>注解<br/>
 3.新建Client Interface，增加<code>@FeignClient(name = &quot;服务名&quot;)</code>注解<br/>
-4.在方法前增加<code>@GetMapping(&quot;/方法名&quot;)</code>注解，明确被调用的方法，这个注解跟被调用端的ServerController的方法有对应关系</p>
+4.在方法前增加<code>@GetMapping(&quot;/方法名&quot;)</code>注解，明确被调用的方法，这个注解跟被调用端的ServerController的方法有对应关系，要注意是完整路径对应，不要遗漏被调用类里<code>@RequestMapping</code>定义的路径</p>
 
                         
                       </div>
@@ -582,6 +655,12 @@ spring:
 	      
 		      
 			      <li class="post">
+			        <a href="15315781706116.html">Spring Cloud学习笔记-5.config配置中心</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15311410217445.html">5G概要</a>
 			      </li>
 		     
@@ -605,10 +684,6 @@ spring:
 		     
 		  
 		      
-			      <li class="post">
-			        <a href="15307181630698.html">Mac常用命令</a>
-			      </li>
-		     
 		  
 		      
 		  
