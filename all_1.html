@@ -86,6 +86,8 @@
             <li><a href="MacOS.html">MacOS</a></li>
         
             <li><a href="5G.html">5G</a></li>
+        
+            <li><a href="ServiceMesh.html">ServiceMesh</a></li>
          
 
       </ul>
@@ -107,6 +109,136 @@
 	<div class="large-8 medium-8 columns">
 		<div class="markdown-body home-categories">
 		
+			<div class="article">
+                <a class="clearlink" href="15309573607293.html">
+                
+                  <h1>Spring Cloud学习笔记-2.Eureka</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">Eureka Server 注册中心</h2>
+
+<ul>
+<li>EurekaApplication.java需要加入注解<code>@EnableEurekaServer</code></li>
+<li><p>配置application.yml</p>
+
+<pre><code>    eureka:
+        client:
+            service-url:
+            defaultZone: http://localhost:8761/eureka
+            register-with-eureka: false //关闭自己做为客户端注册
+        server:
+            enable-self-preservation: false //关闭客户端检测保护
+    spring:
+        application:
+            name: eureka
+    server:
+        port: 8761
+    ```
+</code></pre></li>
+</ul>
+
+<ul>
+<li><p>将eureka放入后台运行</p>
+
+<pre><code>```
+//在命令行打包
+$ mvn clean package
+//放入后台执行
+$ nohup java -jar target/eureka-0.0.1-SNAPSHOT.jar &gt; /dev/null 2&gt;&amp;1 &amp;
+```
+</code></pre></li>
+</ul>
+
+<h2 id="toc_1">Eureka Client 进行服务注册</h2>
+
+<ul>
+<li><p>引入依赖，靠idea不靠谱，2.0.0正式版以上，会漏了最后一个，让我调测半天</p>
+
+<pre><code>    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+        &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+</code></pre></li>
+<li><p>application.yml里配上注册中心地址</p>
+
+<pre><code>eureka:
+    client:
+        serviceUrl:
+        defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    hostname: clientName //设置注册记录里的Status列里的链接地址
+spring:
+    application:
+        name: customer-service
+</code></pre></li>
+<li><p>在启动的主类加<code>@EnableDiscoveryClient</code>注解</p></li>
+</ul>
+
+<h2 id="toc_2">多Eureka集群的配置</h2>
+
+<ul>
+<li>生态环境3台起步为佳</li>
+<li>Eureka Server端配置
+
+<ul>
+<li>多个Server各自配置VM启动参数<code>-Dserver.port=xxxx</code></li>
+<li>各Server的application.yml文件中，<code>eureka.client.serverUrl.defaultZone</code>参数配置为其它Server的注册地址，超过两个Server以上Eureka集群时，配置两个地址，用逗号分隔。很多Server的集群中，这两个地址的策略可以定为两两组合，每个Server实例配置的地址互相错开，不用完全一样</li>
+</ul></li>
+<li>Eureka Client端的配置
+
+<ul>
+<li>application.yml文件中，配置<code>eureka.client.serverUrl.defaultZone</code>参数配置为多个Server注册地址，中间用逗号分隔</li>
+</ul></li>
+</ul>
+
+<h2 id="toc_3">异构系统注册</h2>
+
+<ul>
+<li>Eureka提供REST服务调用方式</li>
+<li>其它语言只需求根据REST API实现自己的客户端即可
+
+<ul>
+<li>Node.js有Eureka-js-client</li>
+</ul></li>
+<li>如果不会写客户端，也可以引入服务端注册的方式，设置服务获取代理，如:Nginx、ZooKepper等</li>
+</ul>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2018/7/7</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
 			<div class="article">
                 <a class="clearlink" href="15307181630698.html">
                 
@@ -476,6 +608,8 @@ $ kill 12345   //杀掉该id进程
             <a href="MacOS.html"><strong>MacOS</strong></a>
         
             <a href="5G.html"><strong>5G</strong></a>
+        
+            <a href="ServiceMesh.html"><strong>ServiceMesh</strong></a>
          
         </p>
 
@@ -490,6 +624,12 @@ $ kill 12345   //杀掉该id进程
                 <div class="side-content">
                 <ul class="posts-list">
 	      
+		      
+			      <li class="post">
+			        <a href="15316520707511.html">Service Mesh行业情况</a>
+			      </li>
+		     
+		  
 		      
 			      <li class="post">
 			        <a href="15315781706116.html">Spring Cloud学习笔记-5.config配置中心</a>
@@ -515,10 +655,6 @@ $ kill 12345   //杀掉该id进程
 		     
 		  
 		      
-			      <li class="post">
-			        <a href="15309573607293.html">Spring Cloud学习笔记-2.Eureka</a>
-			      </li>
-		     
 		  
 		      
 		  
