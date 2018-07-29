@@ -4,13 +4,23 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2018-07-28T23:32:11+08:00</updated>
+  <updated>2018-07-29T23:44:25+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
     
   </author>
   <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[Service Mesh架构解读]]></title>
+    <link href="http://www.krynn.cn/15328789649602.html"/>
+    <updated>2018-07-29T23:42:44+08:00</updated>
+    <id>http://www.krynn.cn/15328789649602.html</id>
+    <content type="html"><![CDATA[
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Service Mesh行业情况]]></title>
