@@ -4,7 +4,7 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2018-07-30T23:28:45+08:00</updated>
+  <updated>2018-08-01T00:03:56+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -137,6 +137,7 @@ eureka:
 <li>可以通过<code>http://localhost:8082(服务指定端口号)/filename-a.yml</code>文件来检验是否从配置服务器获取到指定配置</li>
 <li>文件名有规则，如：/{label}/{name}-{profiles}.yml，label指分支，name为原文件名，profiles为环境，后面为扩展名</li>
 <li>本地git仓库路径可以通过<code>basedir</code>参数指定</li>
+<li>服务名+环境名的组合中，服务名.yml里存放多种环境公共的配置，服务名+环境名.yml文件中放差异性的配置，config client加载时，会合并主配置文件与当前环境配置文件的内容</li>
 </ul>
 
 ]]></content>
