@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  Spring Cloud学习笔记-2.Eureka - The 10th Art
+  Spring Cloud学习笔记-6.消息和异步处理 - The 10th Art
   
   </title>
   
@@ -110,10 +110,10 @@
       <div class="markdown-body article-wrap">
        <div class="article">
           
-          <h1>Spring Cloud学习笔记-2.Eureka</h1>
+          <h1>Spring Cloud学习笔记-6.消息和异步处理</h1>
      
         <div class="read-more clearfix">
-          <span class="date">2018/7/7</span>
+          <span class="date">2018/8/5</span>
 
           <span>posted in&nbsp;</span> 
           
@@ -130,103 +130,63 @@
       </div><!-- article -->
 
       <div class="article-content">
-      <h2 id="toc_0">Eureka Server 注册中心</h2>
+      <h2 id="toc_0">使用RibbitMQ的三种方法</h2>
 
 <ul>
-<li>EurekaApplication.java需要加入注解<code>@EnableEurekaServer</code></li>
-<li><p>配置application.yml</p>
-
-<pre><code>    eureka:
-        client:
-            service-url:
-            defaultZone: http://localhost:8761/eureka
-            register-with-eureka: false //关闭自己做为客户端注册
-        server:
-            enable-self-preservation: false //关闭客户端检测保护
-    spring:
-        application:
-            name: eureka
-    server:
-        port: 8761
-    ```
-</code></pre></li>
+<li>pom里引入</li>
 </ul>
 
-<ul>
-<li><p>将eureka放入后台运行</p>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-cloud-starter-bus-amqp&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
 
-<pre><code>```
-//在命令行打包
-$ mvn clean package
-//放入后台执行
-$ nohup java -jar target/eureka-0.0.1-SNAPSHOT.jar &gt; /dev/null 2&gt;&amp;1 &amp;
-```
-</code></pre></li>
+<ol>
+<li><p>Java类中加入注解<code>@RabbitListener(queues = &quot;myQueue&quot;)</code></p></li>
+<li><p>如需RabbitMQ自动创建对应的queue，则需要使用<code>@RabbitListener(queuesToDeclare = @Queue(&quot;myQueue&quot;))</code></p></li>
+<li><p>自动创建，Exchange和Queue绑定。这种情况通常用在有多个不能的消息topic时，不同的进程消费不同的topic</p></li>
+</ol>
+
+<pre><code>@RabbitListener(bindings = @QueueBinding(
+        value = @Queue(&quot;myQueue&quot;),
+        key = &quot;myKey&quot;,
+        exchange = @Exchange(&quot;myExchange&quot;)
+))
+</code></pre>
+
+<h2 id="toc_1">使用Spring Cloud Stream</h2>
+
+<ul>
+<li><p>支持的MQ有两种：RabbitMQ和Kafka</p></li>
+<li><p>pom.xml里引入</p></li>
 </ul>
 
-<h2 id="toc_1">Eureka Client 进行服务注册</h2>
+<pre><code>        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-bus-amqp&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-stream-rabbit&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
 
 <ul>
-<li><p>引入依赖，靠idea不靠谱，2.0.0正式版以上，会漏了最后一个，让我调测半天</p>
-
-<pre><code>    &lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
-    &lt;/dependency&gt;
-
-    &lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
-        &lt;scope&gt;test&lt;/scope&gt;
-    &lt;/dependency&gt;
-
-    &lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-    &lt;/dependency&gt;
-</code></pre></li>
-<li><p>application.yml里配上注册中心地址</p>
-
-<pre><code>eureka:
-    client:
-        serviceUrl:
-        defaultZone: http://127.0.0.1:8761/eureka/
-  instance:
-    hostname: clientName //设置注册记录里的Status列里的链接地址
-spring:
-    application:
-        name: customer-service
-</code></pre></li>
-<li><p>在启动的主类加<code>@EnableDiscoveryClient</code>注解</p></li>
+<li>设置消息队列名及消息格式，便于定位问题时，直接在rabbitMQ控制台可以直接看到消息内容，在bootstrap.yml里增加配置项如下：</li>
 </ul>
 
-<h2 id="toc_2">多Eureka集群的配置</h2>
+<pre><code>  cloud:
+    stream:
+      bindings:
+        myMessage:
+          group: order
+          content-type: application/json
+</code></pre>
 
 <ul>
-<li>生态环境3台起步为佳</li>
-<li>Eureka Server端配置
-
-<ul>
-<li>多个Server各自配置VM启动参数<code>-Dserver.port=xxxx</code></li>
-<li>各Server的application.yml文件中，<code>eureka.client.serverUrl.defaultZone</code>参数配置为其它Server的注册地址，超过两个Server以上Eureka集群时，配置两个地址，用逗号分隔。很多Server的集群中，这两个地址的策略可以定为两两组合，每个Server实例配置的地址互相错开，不用完全一样</li>
-</ul></li>
-<li>Eureka Client端的配置
-
-<ul>
-<li>application.yml文件中，配置<code>eureka.client.serverUrl.defaultZone</code>参数配置为多个Server注册地址，中间用逗号分隔</li>
-</ul></li>
-</ul>
-
-<h2 id="toc_3">异构系统注册</h2>
-
-<ul>
-<li>Eureka提供REST服务调用方式</li>
-<li>其它语言只需求根据REST API实现自己的客户端即可
-
-<ul>
-<li>Node.js有Eureka-js-client</li>
-</ul></li>
-<li>如果不会写客户端，也可以引入服务端注册的方式，设置服务获取代理，如:Nginx、ZooKepper等</li>
+<li>如何要设置回复消息队列，可以使用<code>@SendTO</code>注解</li>
 </ul>
 
 
@@ -238,16 +198,13 @@ spring:
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
       
-          <a href="15309599028203.html" 
-          title="Previous Post: Spring Cloud学习笔记-3.微服务设计">&laquo; Spring Cloud学习笔记-3.微服务设计</a>
-      
         </p>
         </div>
         <div class="large-6 columns">
       <p class="text-right" style="padding:15px 0px;">
       
-          <a  href="15307181630698.html" 
-          title="Next Post: Mac常用命令">Mac常用命令 &raquo;</a>
+          <a  href="15328789649602.html" 
+          title="Next Post: Service Mesh架构解读">Service Mesh架构解读 &raquo;</a>
       
       </p>
         </div>

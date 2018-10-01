@@ -110,6 +110,96 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
+                <a class="clearlink" href="15333992949791.html">
+                
+                  <h1>Spring Cloud学习笔记-6.消息和异步处理</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">使用RibbitMQ的三种方法</h2>
+
+<ul>
+<li>pom里引入</li>
+</ul>
+
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-cloud-starter-bus-amqp&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<ol>
+<li><p>Java类中加入注解<code>@RabbitListener(queues = &quot;myQueue&quot;)</code></p></li>
+<li><p>如需RabbitMQ自动创建对应的queue，则需要使用<code>@RabbitListener(queuesToDeclare = @Queue(&quot;myQueue&quot;))</code></p></li>
+<li><p>自动创建，Exchange和Queue绑定。这种情况通常用在有多个不能的消息topic时，不同的进程消费不同的topic</p></li>
+</ol>
+
+<pre><code>@RabbitListener(bindings = @QueueBinding(
+        value = @Queue(&quot;myQueue&quot;),
+        key = &quot;myKey&quot;,
+        exchange = @Exchange(&quot;myExchange&quot;)
+))
+</code></pre>
+
+<h2 id="toc_1">使用Spring Cloud Stream</h2>
+
+<ul>
+<li><p>支持的MQ有两种：RabbitMQ和Kafka</p></li>
+<li><p>pom.xml里引入</p></li>
+</ul>
+
+<pre><code>        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-bus-amqp&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-stream-rabbit&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+<ul>
+<li>设置消息队列名及消息格式，便于定位问题时，直接在rabbitMQ控制台可以直接看到消息内容，在bootstrap.yml里增加配置项如下：</li>
+</ul>
+
+<pre><code>  cloud:
+    stream:
+      bindings:
+        myMessage:
+          group: order
+          content-type: application/json
+</code></pre>
+
+<ul>
+<li>如何要设置回复消息队列，可以使用<code>@SendTO</code>注解</li>
+</ul>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2018/8/5</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
                 <a class="clearlink" href="15315781706116.html">
                 
                   <h1>Spring Cloud学习笔记-5.config配置中心</h1>
@@ -491,96 +581,6 @@ spring:
                 </div>
               </div><!-- article -->
         
-			<div class="article">
-                <a class="clearlink" href="15301075535592.html">
-                
-                  <h1>Spring Cloud学习笔记-1.背景概述</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h2 id="toc_0">微服务是什么</h2>
-
-<ul>
-<li>James Lewis &amp; Martin Fowler 2014年3月25日写的《Microservices》</li>
-<li><a href="http://martinfowler.com/articles/microservices.html">http://martinfowler.com/articles/microservices.html</a></li>
-<li>微服务是一种架构风格，没有强制性，没有标准答案，如同Restful</li>
-<li>微服务特点：
-
-<ul>
-<li>一系列微小的服务组成</li>
-<li>一个微服务一个进程</li>
-<li>每个服务提供独立的业务功能</li>
-<li>独立部署</li>
-<li>分布式</li>
-<li>无状态</li>
-<li>被管理</li>
-<li>自动运维</li>
-<li>API/Restful</li>
-</ul></li>
-</ul>
-
-<h2 id="toc_1">单体架构优点和缺点</h2>
-
-<ul>
-<li>优点：容易测试和部署</li>
-<li>缺点：代码维护困难，发布依赖多，构建时间长，稳定性易受单个模块影响，扩展性不够，开发效率低</li>
-<li>其实微服务跟单体架构比没什么意思，毕竟不是一个时代的模式。分布式跟微服务才比较困扰</li>
-</ul>
-
-<h2 id="toc_2">分布式架构的优点和缺点</h2>
-
-<ul>
-<li>优点：分布式，多个自治的处理单元，不共享主内存，通过网络发送消息合作</li>
-<li>缺点：没有牵引微小化，部分模块仍然较大，存在单体架构的各种缺点</li>
-</ul>
-
-<h2 id="toc_3">微服务架构的主要组件</h2>
-
-<ul>
-<li>服务注册发现，Zookeeper，Eureka</li>
-<li>服务网关，连接内外，提供服务路由，屏蔽后台细节，还会提供限流和容错，监控和日志也可以在这做，用户认证、授权，反爬虫</li>
-<li>前端服务，边缘服务，对后端的服务进行聚合和裁剪
-
-<ul>
-<li>聚合：多个API逻辑进行聚合，减少后端请求数</li>
-<li>裁剪：根据用户环境，返回不一样的服务内容，比如：手机端跟PC端返回不一样的内容</li>
-</ul></li>
-<li>后端服务，提供业务功能</li>
-</ul>
-
-<h2 id="toc_4">Spring Cloud是什么</h2>
-
-<ul>
-<li>是一个开发工具集，包括了多个子项目</li>
-<li>Spring Boot提供开发便利性</li>
-<li>对Netflix开源组件进行封装</li>
-<li>降低了分布式开发门槛</li>
-</ul>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2018/6/27</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
               
 
 
@@ -592,7 +592,7 @@ spring:
 			  </div>
 			  <div class="large-6 columns">
 			<p class="text-right" style="padding-top:25px;">
-			
+			 <a href="Spring Cloud_1.html">&raquo; Next Page</a> 
 			</p>
 			  </div>
 			</div>
@@ -660,6 +660,12 @@ spring:
 	      
 		      
 			      <li class="post">
+			        <a href="15333992949791.html">Spring Cloud学习笔记-6.消息和异步处理</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15328789649602.html">Service Mesh架构解读</a>
 			      </li>
 		     
@@ -683,10 +689,6 @@ spring:
 		     
 		  
 		      
-			      <li class="post">
-			        <a href="15309599020091.html">Spring Cloud学习笔记-4.Ribbon应用间通信</a>
-			      </li>
-		     
 		  
 		      
 		  

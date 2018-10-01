@@ -4,13 +4,81 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2018-08-04T23:22:54+08:00</updated>
+  <updated>2018-10-01T23:53:35+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
     
   </author>
   <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[Spring Cloud学习笔记-6.消息和异步处理]]></title>
+    <link href="http://www.krynn.cn/15333992949791.html"/>
+    <updated>2018-08-05T00:14:54+08:00</updated>
+    <id>http://www.krynn.cn/15333992949791.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">使用RibbitMQ的三种方法</h2>
+
+<ul>
+<li>pom里引入</li>
+</ul>
+
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-cloud-starter-bus-amqp&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<ol>
+<li><p>Java类中加入注解<code>@RabbitListener(queues = &quot;myQueue&quot;)</code></p></li>
+<li><p>如需RabbitMQ自动创建对应的queue，则需要使用<code>@RabbitListener(queuesToDeclare = @Queue(&quot;myQueue&quot;))</code></p></li>
+<li><p>自动创建，Exchange和Queue绑定。这种情况通常用在有多个不能的消息topic时，不同的进程消费不同的topic</p></li>
+</ol>
+
+<pre><code>@RabbitListener(bindings = @QueueBinding(
+        value = @Queue(&quot;myQueue&quot;),
+        key = &quot;myKey&quot;,
+        exchange = @Exchange(&quot;myExchange&quot;)
+))
+</code></pre>
+
+<h2 id="toc_1">使用Spring Cloud Stream</h2>
+
+<ul>
+<li><p>支持的MQ有两种：RabbitMQ和Kafka</p></li>
+<li><p>pom.xml里引入</p></li>
+</ul>
+
+<pre><code>        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-bus-amqp&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-stream-rabbit&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+<ul>
+<li>设置消息队列名及消息格式，便于定位问题时，直接在rabbitMQ控制台可以直接看到消息内容，在bootstrap.yml里增加配置项如下：</li>
+</ul>
+
+<pre><code>  cloud:
+    stream:
+      bindings:
+        myMessage:
+          group: order
+          content-type: application/json
+</code></pre>
+
+<ul>
+<li>如何要设置回复消息队列，可以使用<code>@SendTO</code>注解</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Service Mesh架构解读]]></title>
