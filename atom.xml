@@ -4,7 +4,7 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2018-10-01T23:53:35+08:00</updated>
+  <updated>2018-10-02T23:45:25+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -207,6 +207,22 @@ eureka:
 <li>本地git仓库路径可以通过<code>basedir</code>参数指定</li>
 <li>服务名+环境名的组合中，服务名.yml里存放多种环境公共的配置，服务名+环境名.yml文件中放差异性的配置，config client加载时，会合并主配置文件与当前环境配置文件的内容</li>
 </ul>
+
+<p>4.其它服务要使用配置中心，需要做如下修改：</p>
+
+<ul>
+<li>application.yml改名为bootstrap.yml</li>
+<li>在bootstrap.yml文件中加入配置，然后将需要放入配置中心的配置项移动到git配置文件中</li>
+</ul>
+
+<pre><code>spring:
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: CONFIG
+      profile: dev
+</code></pre>
 
 ]]></content>
   </entry>
