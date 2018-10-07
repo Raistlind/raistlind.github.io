@@ -4,7 +4,7 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2018-10-07T22:22:21+08:00</updated>
+  <updated>2018-10-07T23:35:57+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -13,7 +13,133 @@
   <generator uri="http://www.mweb.im/">MWeb</generator>
   
   <entry>
-    <title type="html"><![CDATA[Spring Cloud学习笔记-7.服务网关]]></title>
+    <title type="html"><![CDATA[# Spring Cloud学习笔记-7.服务网关（2）]]></title>
+    <link href="http://www.krynn.cn/15389222292649.html"/>
+    <updated>2018-10-07T22:23:49+08:00</updated>
+    <id>http://www.krynn.cn/15389222292649.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">定义Pre Filter</h2>
+
+<ul>
+<li>例子：定义一个检查token请求参数的pre filter</li>
+</ul>
+
+<pre><code>@Component
+public class TokenFilter extends ZuulFilter {
+
+
+    @Override
+    public String filterType() {
+        return PRE_TYPE;
+    }
+
+    @Override
+    public int filterOrder() {
+        return PRE_DECORATION_FILTER_ORDER - 1;
+    }
+
+    @Override
+    public boolean shouldFilter() {
+        return true;
+    }
+
+    @Override
+    public Object run() {
+
+        RequestContext requestContext = RequestContext.getCurrentContext();
+        HttpServletRequest request = requestContext.getRequest();
+
+        String token = request.getParameter(&quot;token&quot;);
+        if (StringUtils.isEmpty(token)) {
+            requestContext.setSendZuulResponse(false);
+            requestContext.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
+        }
+        return null;
+    }
+}
+</code></pre>
+
+<h2 id="toc_1">定义Post Filter</h2>
+
+<ul>
+<li>定义一个post filter，在response的header里添加参数</li>
+</ul>
+
+<pre><code>@Component
+public class AddResponseHeaderFilter extends ZuulFilter {
+    @Override
+    public String filterType() {
+        return POST_TYPE;
+    }
+
+    @Override
+    public int filterOrder() {
+        return SEND_RESPONSE_FILTER_ORDER - 1;
+    }
+
+    @Override
+    public boolean shouldFilter() {
+        return true;
+    }
+
+    @Override
+    public Object run() {
+        RequestContext requestContext = RequestContext.getCurrentContext();
+        HttpServletResponse response = requestContext.getResponse();
+
+        response.setHeader(&quot;X-Foo&quot;, UUID.randomUUID().toString());
+
+        return null;
+    }
+}
+</code></pre>
+
+<h2 id="toc_2">限流</h2>
+
+<ul>
+<li>定义Pre Filter，优先级通常设为最高，在认证鉴权之前</li>
+</ul>
+
+<pre><code>@Component
+public class RateLimitFilter extends ZuulFilter {
+
+    // Google的令牌桶算法
+    private static final RateLimiter RATE_LIMITER = RateLimiter.create(100);
+
+    @Override
+    public String filterType() {
+        return PRE_TYPE;
+    }
+
+    @Override
+    public int filterOrder() {
+        return SERVLET_DETECTION_FILTER_ORDER - 1;
+    }
+
+    @Override
+    public boolean shouldFilter() {
+        return true;
+    }
+
+    @Override
+    public Object run() {
+        if (!RATE_LIMITER.tryAcquire()) {
+            throw new RateLimitException();
+        }
+        return null;
+    }
+}
+</code></pre>
+
+<ul>
+<li>参考一个限流开源项目<a href="https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit">https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Spring Cloud学习笔记-7.服务网关（1）]]></title>
     <link href="http://www.krynn.cn/15388380400514.html"/>
     <updated>2018-10-06T23:00:40+08:00</updated>
     <id>http://www.krynn.cn/15388380400514.html</id>

@@ -110,6 +110,86 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
+                <a class="clearlink" href="15309599028203.html">
+                
+                  <h1>Spring Cloud学习笔记-3.微服务设计</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">什么样的系统适合使用微服务</h2>
+
+<ul>
+<li>系统中不包含太多强事务场景的，主要是分布式系统主要考虑最终一致性，不适合强事务场景</li>
+<li>业务会持续变化，快速迭代</li>
+<li>访问压力大，可用性要求高</li>
+<li>...</li>
+</ul>
+
+<h2 id="toc_1">理论基础-康威定律</h2>
+
+<ul>
+<li>Organizations which design systems are constrained to produce designs which are copies of the communication structures of these organizations.</li>
+<li>任何组织在设计一套系统（广义概念上的系统）时，所交付的设计方案在结构上都与该组织的沟通结构保持一致。</li>
+<li>沟通的问题会影响系统的设计，微服务架构也是在解决沟通问题</li>
+</ul>
+
+<h2 id="toc_2">微服务特点</h2>
+
+<ul>
+<li>一系统微小的服务共同组成</li>
+<li>单独部署，跑在自己的进程里</li>
+<li>每个服务为独立的业务开发</li>
+<li>分布式的管理</li>
+</ul>
+
+<h2 id="toc_3">服务拆分考量因素</h2>
+
+<ul>
+<li>代码规模</li>
+<li>业务迭代情况</li>
+<li>技术栈当前的团队能力是否适合独立成军</li>
+<li>水平复制扩展，提高容量</li>
+<li>数据分区，每个服务负责一个数据子集</li>
+<li>功能解耦，单一职责，松耦合，高内聚</li>
+<li>关注点分离，界线上下文（DDD），按职责、通用性、粒度等维度分离</li>
+<li>微服务粒度和规模并不好把握，是随业务变化而变化的</li>
+<li>无状态</li>
+</ul>
+
+<h2 id="toc_4">服务拆分方法</h2>
+
+<ul>
+<li>每个微服务都有单独的数据存储</li>
+<li>根据服务特点选择不同结构的数据库类型</li>
+<li>针对边界设计API</li>
+<li>依据边界权衡数据冗余</li>
+</ul>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2018/7/7</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
                 <a class="clearlink" href="15309573607293.html">
                 
                   <h1>Spring Cloud学习笔记-2.Eureka</h1>
@@ -408,7 +488,13 @@ spring:
 	      
 		      
 			      <li class="post">
-			        <a href="15388380400514.html">Spring Cloud学习笔记-7.服务网关</a>
+			        <a href="15389222292649.html"># Spring Cloud学习笔记-7.服务网关（2）</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15388380400514.html">Spring Cloud学习笔记-7.服务网关（1）</a>
 			      </li>
 		     
 		  
@@ -431,10 +517,6 @@ spring:
 		     
 		  
 		      
-			      <li class="post">
-			        <a href="15315781706116.html">Spring Cloud学习笔记-5.config配置中心</a>
-			      </li>
-		     
 		  
 		      
 		  
