@@ -4,13 +4,157 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2018-10-02T23:45:25+08:00</updated>
+  <updated>2018-10-07T22:22:21+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
     
   </author>
   <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[Spring Cloud学习笔记-7.服务网关]]></title>
+    <link href="http://www.krynn.cn/15388380400514.html"/>
+    <updated>2018-10-06T23:00:40+08:00</updated>
+    <id>http://www.krynn.cn/15388380400514.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">服务网关重要关注点</h2>
+
+<ul>
+<li>高可用性</li>
+<li>并发性能</li>
+<li>安全性</li>
+<li>扩展性</li>
+</ul>
+
+<h2 id="toc_1">常见网关方案</h2>
+
+<ul>
+<li>Nginx + Lua：性能极高，高并发，扩展性好</li>
+<li>Kong：基于Nginx + Lua，提高易用性，但是是商业收费方案</li>
+<li>Tyk：支持配额和速度限制，支持认证、数据分析、多租户、多组织，支持全Restful API。用go开发，性能和扩展性不错</li>
+<li>Spring Cloud Zuul：以Java技术栈为主的话，提供了认证、鉴权、限流、动态路由、监控、弹性、安全、负载均衡、协作单点压测、静态响应等边缘服务的框架。一代的Zuul在性能上不具备优势，第二代据说有很大提升，与Spring Cloud配合好，路由+过滤器为主要功能，核心是一系统的过滤器</li>
+<li>各种方案可以根据项目实际情况分层分段混搭</li>
+</ul>
+
+<h2 id="toc_2">Zuul的四种过滤器API</h2>
+
+<ul>
+<li>前置（Pre）：常用于限流、鉴权、参数校验、请求转发</li>
+<li>路由（Route）</li>
+<li>后置（Post）：常用于统计、日志</li>
+<li>错误（Error）</li>
+</ul>
+
+<h2 id="toc_3">启动Zuul</h2>
+
+<ul>
+<li>引入工程依赖</li>
+</ul>
+
+<pre><code>        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-netflix-zuul&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+<ul>
+<li>bootstrap.yml里配置环境</li>
+</ul>
+
+<pre><code>spring:
+  application:
+    name: api-gateway
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: CONFIG
+      profile: dev
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+</code></pre>
+
+<ul>
+<li>主类上启动<code>@EnableZuulProxy</code>注释</li>
+</ul>
+
+<h2 id="toc_4">路由管理</h2>
+
+<ul>
+<li>在bootstrap.yml文件里增加路由</li>
+</ul>
+
+<pre><code>zuul:
+  routes:
+    myProduct:
+      path: /myProduct/**
+      serviceId: product
+</code></pre>
+
+<p>简单写法</p>
+
+<pre><code>      product: /myProduct/**
+</code></pre>
+
+<ul>
+<li>允许查看路由信息，在bootstrap.yml文件里增加如下配置，然后访问：<a href="http://ip:port/application/routes">http://ip:port/application/routes</a></li>
+</ul>
+
+<pre><code>management:
+  security:
+    enabled: false
+</code></pre>
+
+<ul>
+<li>排除某些路由</li>
+</ul>
+
+<pre><code>  ignored-patterns:
+    - /url1
+    - /**/product/list
+</code></pre>
+
+<ul>
+<li>传递Cookie，将sensitiveHeaders设为空即可</li>
+</ul>
+
+<pre><code>zuul:
+  # 增加路由
+  routes:
+    myProduct:
+      path: /myProduct/**
+      serviceId: product
+      # 传递cookie
+      sensitiveHeaders:
+</code></pre>
+
+<ul>
+<li>动态路由，请建一个类，刷新路由配置</li>
+</ul>
+
+<pre><code>@Component
+public class ZuulConfig {
+
+    @ConfigurationProperties(&quot;zuul&quot;)
+    @RefreshScope
+    public ZuulProperties zuulProperties() {
+        return new ZuulProperties();
+    }
+}
+</code></pre>
+
+<h1 id="toc_5">zuul高可用</h1>
+
+<ul>
+<li>多个zuul节点注册到Eureka Server</li>
+<li>Nginx和zuul混搭</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Spring Cloud学习笔记-6.消息和异步处理]]></title>

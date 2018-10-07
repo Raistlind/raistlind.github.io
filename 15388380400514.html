@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  Service Mesh行业情况 - The 10th Art
+  Spring Cloud学习笔记-7.服务网关 - The 10th Art
   
   </title>
   
@@ -110,14 +110,14 @@
       <div class="markdown-body article-wrap">
        <div class="article">
           
-          <h1>Service Mesh行业情况</h1>
+          <h1>Spring Cloud学习笔记-7.服务网关</h1>
      
         <div class="read-more clearfix">
-          <span class="date">2018/7/15</span>
+          <span class="date">2018/10/6</span>
 
           <span>posted in&nbsp;</span> 
           
-              <span class="posted-in"><a href='ServiceMesh.html'>ServiceMesh</a></span>
+              <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
            
          
           <span class="comments">
@@ -130,69 +130,139 @@
       </div><!-- article -->
 
       <div class="article-content">
-      <h2 id="toc_0">第一代Service Mesh</h2>
+      <h2 id="toc_0">服务网关重要关注点</h2>
 
 <ul>
-<li>Linkerd
+<li>高可用性</li>
+<li>并发性能</li>
+<li>安全性</li>
+<li>扩展性</li>
+</ul>
+
+<h2 id="toc_1">常见网关方案</h2>
 
 <ul>
-<li>无控制平面</li>
-<li>Scala编写，基于JVM资源消耗大</li>
-<li>可扩展性有限，dtab不易理解和使用</li>
-<li>发展前景暗淡</li>
-</ul></li>
-<li>Envoy
+<li>Nginx + Lua：性能极高，高并发，扩展性好</li>
+<li>Kong：基于Nginx + Lua，提高易用性，但是是商业收费方案</li>
+<li>Tyk：支持配额和速度限制，支持认证、数据分析、多租户、多组织，支持全Restful API。用go开发，性能和扩展性不错</li>
+<li>Spring Cloud Zuul：以Java技术栈为主的话，提供了认证、鉴权、限流、动态路由、监控、弹性、安全、负载均衡、协作单点压测、静态响应等边缘服务的框架。一代的Zuul在性能上不具备优势，第二代据说有很大提升，与Spring Cloud配合好，路由+过滤器为主要功能，核心是一系统的过滤器</li>
+<li>各种方案可以根据项目实际情况分层分段混搭</li>
+</ul>
+
+<h2 id="toc_2">Zuul的四种过滤器API</h2>
 
 <ul>
-<li>只有数据平面，提供XDS API，xDS APi基本上成为Service Mesh事实上的控制平面和数据平面间的标准</li>
-<li>设计优秀，性能和稳定性表现良好</li>
-<li>C++编写</li>
-<li>行业上形成趋势，如：有部分公司开始用envoy替换nginx，说明其成熟度、稳定性和性能达到nginx类似级别
-## 第二代Service Mesh</li>
-</ul></li>
-<li>Istio
+<li>前置（Pre）：常用于限流、鉴权、参数校验、请求转发</li>
+<li>路由（Route）</li>
+<li>后置（Post）：常用于统计、日志</li>
+<li>错误（Error）</li>
+</ul>
+
+<h2 id="toc_3">启动Zuul</h2>
 
 <ul>
-<li>基于Envoy数据平面，提供控制平面</li>
-<li>当前0.8版本，是长期支持版本，还未发布1.0</li>
-<li>设计理念和发展方向都很好</li>
-<li>性能不突出</li>
-</ul></li>
-<li>Conduit
+<li>引入工程依赖</li>
+</ul>
+
+<pre><code>        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-netflix-zuul&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
 
 <ul>
-<li>数据平面用Rust编写，过于小众，committer人数少，25个左右，难以借用社区开发力量</li>
-<li>只支持k8s
-## 国内公司做法</li>
-</ul></li>
-<li>华为CES Mesher
+<li>bootstrap.yml里配置环境</li>
+</ul>
+
+<pre><code>spring:
+  application:
+    name: api-gateway
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: CONFIG
+      profile: dev
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+</code></pre>
 
 <ul>
-<li>使用Golang编写，由go chassis演进而来</li>
-<li>走的是已有类库-&gt;加proxy-&gt;再加控制平面的路线</li>
-<li>部分对接Istio</li>
-<li>即将开源</li>
-</ul></li>
-<li>新浪微博Motan Mesh
+<li>主类上启动<code>@EnableZuulProxy</code>注释</li>
+</ul>
+
+<h2 id="toc_4">路由管理</h2>
 
 <ul>
-<li>使用Golang编写</li>
-<li>全新实现</li>
-</ul></li>
-<li>腾讯Tencent Service Mesh
+<li>在bootstrap.yml文件里增加路由</li>
+</ul>
+
+<pre><code>zuul:
+  routes:
+    myProduct:
+      path: /myProduct/**
+      serviceId: product
+</code></pre>
+
+<p>简单写法</p>
+
+<pre><code>      product: /myProduct/**
+</code></pre>
 
 <ul>
-<li>数据平面使用Envoy</li>
-<li>控制平面基于Istio进行定制和扩展，解耦k8s</li>
-</ul></li>
-<li>UCloud Service Mesh
+<li>允许查看路由信息，在bootstrap.yml文件里增加如下配置，然后访问：<a href="http://ip:port/application/routes">http://ip:port/application/routes</a></li>
+</ul>
+
+<pre><code>management:
+  security:
+    enabled: false
+</code></pre>
 
 <ul>
-<li>轻量级实践,从Istio里剥离Pilot和Envoy</li>
-<li>去掉Mixer和Auth</li>
-<li>定制Pilot，实现ETCD Adapter</li>
-<li>脱离k8s运行</li>
-</ul></li>
+<li>排除某些路由</li>
+</ul>
+
+<pre><code>  ignored-patterns:
+    - /url1
+    - /**/product/list
+</code></pre>
+
+<ul>
+<li>传递Cookie，将sensitiveHeaders设为空即可</li>
+</ul>
+
+<pre><code>zuul:
+  # 增加路由
+  routes:
+    myProduct:
+      path: /myProduct/**
+      serviceId: product
+      # 传递cookie
+      sensitiveHeaders:
+</code></pre>
+
+<ul>
+<li>动态路由，请建一个类，刷新路由配置</li>
+</ul>
+
+<pre><code>@Component
+public class ZuulConfig {
+
+    @ConfigurationProperties(&quot;zuul&quot;)
+    @RefreshScope
+    public ZuulProperties zuulProperties() {
+        return new ZuulProperties();
+    }
+}
+</code></pre>
+
+<h1 id="toc_5">zuul高可用</h1>
+
+<ul>
+<li>多个zuul节点注册到Eureka Server</li>
+<li>Nginx和zuul混搭</li>
 </ul>
 
 
@@ -204,16 +274,13 @@
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
       
-          <a href="15328789649602.html" 
-          title="Previous Post: Service Mesh架构解读">&laquo; Service Mesh架构解读</a>
-      
         </p>
         </div>
         <div class="large-6 columns">
       <p class="text-right" style="padding:15px 0px;">
       
-          <a  href="15315781706116.html" 
-          title="Next Post: Spring Cloud学习笔记-5.config配置中心">Spring Cloud学习笔记-5.config配置中心 &raquo;</a>
+          <a  href="15333992949791.html" 
+          title="Next Post: Spring Cloud学习笔记-6.消息和异步处理">Spring Cloud学习笔记-6.消息和异步处理 &raquo;</a>
       
       </p>
         </div>
