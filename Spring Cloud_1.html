@@ -110,6 +110,194 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
+                <a class="clearlink" href="15315781706116.html">
+                
+                  <h1>Spring Cloud学习笔记-5.config配置中心</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">使用方法</h2>
+
+<p>1.pom.xml引入依赖</p>
+
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<p>2.项目主启动文件增加<code>@EnableDiscoveryClient</code>和<code>@EnableConfigServer</code>注解，完成服务注册和开启config server服务</p>
+
+<p>3.在application.yml指定git配置路径</p>
+
+<pre><code>spring:
+  application:
+    name: config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://gitlab-demo.com/6003575/my-config-repo.git
+          username: 6003575
+          password: abcd1234
+          basedir: /Users/daiqiang/Dev/java/springcloud_sell/config-repo
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+</code></pre>
+
+<ul>
+<li>可以通过<code>http://localhost:8082(服务指定端口号)/filename-a.yml</code>文件来检验是否从配置服务器获取到指定配置</li>
+<li>文件名有规则，如：/{label}/{name}-{profiles}.yml，label指分支，name为原文件名，profiles为环境，后面为扩展名</li>
+<li>本地git仓库路径可以通过<code>basedir</code>参数指定</li>
+<li>服务名+环境名的组合中，服务名.yml里存放多种环境公共的配置，服务名+环境名.yml文件中放差异性的配置，config client加载时，会合并主配置文件与当前环境配置文件的内容</li>
+</ul>
+
+<p>4.其它服务要使用配置中心，需要做如下修改：</p>
+
+<ul>
+<li>application.yml改名为bootstrap.yml</li>
+<li>在bootstrap.yml文件中加入配置，然后将需要放入配置中心的配置项移动到git配置文件中</li>
+</ul>
+
+<pre><code>spring:
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: CONFIG
+      profile: dev
+</code></pre>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2018/7/14</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15309599020091.html">
+                
+                  <h1>Spring Cloud学习笔记-4.Ribbon应用间通信</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">HTTP VS RPC</h2>
+
+<ul>
+<li>Dubbo定位是RPC框架，可以作为Spring Cloud二进制通信方案</li>
+<li>Spring Cloud是微服务架构下的一站式解决方案</li>
+</ul>
+
+<h2 id="toc_1">客户端负载均衡器：Ribbon</h2>
+
+<ul>
+<li>RestTemplate
+
+<ul>
+<li>使用Rest方式调用其它服务</li>
+</ul></li>
+<li>Feign
+
+<ul>
+<li>声明式REST客户端</li>
+<li>采用接口+注解的方式，即定义一个Interface，然后在上面加上注解</li>
+<li>使用时感觉不到是在调用REST，像是在用本地接口，底层还是使用了Ribbon的机制</li>
+</ul></li>
+<li>Zuul</li>
+</ul>
+
+<h2 id="toc_2">Ribbon主要能力</h2>
+
+<ul>
+<li>服务发现，根据服务名字，找出所有同名实例</li>
+<li>服务选择规则，依据规则策略，从多个服务中选择有效的服务</li>
+<li>服务监听，检测无效的服务，高效去除</li>
+</ul>
+
+<h2 id="toc_3">REST Template用法</h2>
+
+<ol>
+<li>直接使用RestTemplate，url写死</li>
+<li>用LoadBalancerClient通过应用名称获取url，然后再使用RestTemplate</li>
+<li>用@LoadBalanced，可在restTemplate里使用应用名字</li>
+</ol>
+
+<h2 id="toc_4">Ribbon主要组件</h2>
+
+<ul>
+<li>ServerList，获取所有的可用服务</li>
+<li>ServerListFilter：过滤到一部分地址</li>
+<li><p>IRule：选择一个实例</p>
+
+<ul>
+<li>在application.yml里配置选择策略，如：选择随机策略</li>
+</ul>
+
+<pre><code>ORDER:
+    ribbon:
+        NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+</code></pre></li>
+</ul>
+
+<h2 id="toc_5">Feign使用方法</h2>
+
+<p>1.增加包依赖</p>
+
+<pre><code>        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-feign&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+<p>2.启动类增加<code>@EnableFeignClients</code>注解<br/>
+3.新建Client Interface，增加<code>@FeignClient(name = &quot;服务名&quot;)</code>注解<br/>
+4.在方法前增加<code>@GetMapping(&quot;/方法名&quot;)</code>注解，明确被调用的方法，这个注解跟被调用端的ServerController的方法有对应关系，要注意是完整路径对应，不要遗漏被调用类里<code>@RequestMapping</code>定义的路径</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2018/7/7</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
                 <a class="clearlink" href="15309599028203.html">
                 
                   <h1>Spring Cloud学习笔记-3.微服务设计</h1>
@@ -488,7 +676,19 @@ spring:
 	      
 		      
 			      <li class="post">
-			        <a href="15389222292649.html"># Spring Cloud学习笔记-7.服务网关（2）</a>
+			        <a href="15395270781372.html">Spring Cloud学习笔记-9.服务追踪</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15395135852631.html">Spring Cloud学习笔记-8.服务容错和Hystrix</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15389222292649.html">Spring Cloud学习笔记-7.服务网关（2）</a>
 			      </li>
 		     
 		  
@@ -505,16 +705,8 @@ spring:
 		     
 		  
 		      
-			      <li class="post">
-			        <a href="15328789649602.html">Service Mesh架构解读</a>
-			      </li>
-		     
 		  
 		      
-			      <li class="post">
-			        <a href="15316520707511.html">Service Mesh行业情况</a>
-			      </li>
-		     
 		  
 		      
 		  

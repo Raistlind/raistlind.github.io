@@ -110,9 +110,185 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
+                <a class="clearlink" href="15395270781372.html">
+                
+                  <h1>Spring Cloud学习笔记-9.服务追踪</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">Spring Cloud Sleuth</h2>
+
+<ul>
+<li>pom引入依赖</li>
+</ul>
+
+<pre><code>        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-sleuth&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2018/10/14</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15395135852631.html">
+                
+                  <h1>Spring Cloud学习笔记-8.服务容错和Hystrix</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">服务降级</h2>
+
+<ul>
+<li>优先核心业务，非核心业务不可用或弱可用，如：“唉哟，网络开小差了”页面</li>
+<li>通过HystrixCommand注解指定</li>
+<li><p>fallbackMethod（回退函数）中具体实现降低逻辑</p></li>
+<li><p>使用方法</p>
+
+<ul>
+<li>pom中引入依赖</li>
+</ul>
+
+<pre><code>        &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-cloud-starter-hystrix&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+</code></pre>
+
+<ul>
+<li>在主类上添加注解<code>@EnableCircuitBreaker)</code>(或者@SpringCloudApplication = @SpringBootApplication + @EnableDiscoveryClient + @EnableCircuitBreaker)</li>
+</ul>
+
+<pre><code>//@SpringBootApplication
+//@EnableDiscoveryClient
+//@EnableCircuitBreaker
+@SpringCloudApplication
+</code></pre>
+
+<ul>
+<li>然后在对应的Controller类的方法上增加注解，如：@HystrixCommand(fallbackMethod = &quot;fallback&quot;)，然后实现应用的方法，如：fallback()</li>
+<li>除了被调用服务失败可以触发降级外，自己主动抛出异常同样可以触发降级</li>
+<li>可能通过在类前添加注解@DefaultProperties(defaultFallback = &quot;defaultFallback&quot;)，然后实现对应方法就可以让本类内所有方法都使用该降级处理。各方法的@HystrixCommand注解后不需要添加fallbackMethod参数</li>
+<li>@HystrixCommand有很多参数可以设置，用来调降级条件，如：设置调用超时时间为3秒配置如下：</li>
+</ul>
+
+<pre><code>@HystrixCommand(commandProperties = {
+        @HystrixProperty(name = &quot;execution.isolation.thread.timeoutInMilliseconds&quot;, value = &quot;3000&quot;)
+})
+</code></pre></li>
+</ul>
+
+<h2 id="toc_1">依赖隔离</h2>
+
+<ul>
+<li>Hystrix提供的是线程池隔离，每个HystrixCommand里的方法都会自动实现隔离，对开发者来说不用关心</li>
+</ul>
+
+<h2 id="toc_2">服务熔断</h2>
+
+<ul>
+<li>主要使用Circuit Breaker断路器参数设置熔断</li>
+<li>短暂的故障通过重试来解决，长时间的故障通过断路器解决</li>
+</ul>
+
+<pre><code>    //设置断路器
+    @HystrixCommand(commandProperties = {
+            @HystrixProperty(name = &quot;circuitBreaker.enabled&quot;, value = &quot;true&quot;),
+            //滚动时间窗口内，断路器最小请求数
+            @HystrixProperty(name = &quot;circuitBreaker.requestVolumeThreshold&quot;, value = &quot;10&quot;),
+            //降级逻辑作用时间窗口，到时间后，转换断路器状态从Open到Half-open
+            @HystrixProperty(name = &quot;circuitBreaker.sleepWindowInMilliseconds&quot;, value = &quot;10000&quot;),
+            //触发断路器的错误率，达到条件时，转换断路器状态从Close到Open
+            @HystrixProperty(name = &quot;circuitBreaker.errorThresholdPercentage&quot;, value = &quot;60&quot;),
+    })
+</code></pre>
+
+<ul>
+<li>以上配置也可以通过bootstrap.yml配置文件设置，如：3秒超时的配法，但还是需要在方法里加上@HystrixCommand注解。同时，为特定方法设置特殊阈值，可以将该方法名写到配置中指定，如：getProductInfoList</li>
+</ul>
+
+<pre><code>hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1000
+    getProductInfoList:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000
+</code></pre>
+
+<h2 id="toc_3">监控（Hystrix Dashboard）</h2>
+
+<ul>
+<li>Hystrix自带dashboard</li>
+<li>pom引入dashboard</li>
+</ul>
+
+<pre><code>        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-hystrix-dashboard&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+<ul>
+<li>主类上加上注解@EnableHystrixDashboard启动</li>
+<li>访问<a href="http://localhost:8080/hystrix%E5%90%8E%EF%BC%8C%E8%BE%93%E5%85%A5%E5%BA%94%E7%94%A8%E5%9C%B0%E5%9D%80">http://localhost:8080/hystrix后，输入应用地址</a></li>
+</ul>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2018/10/14</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
                 <a class="clearlink" href="15389222292649.html">
                 
-                  <h1># Spring Cloud学习笔记-7.服务网关（2）</h1>
+                  <h1>Spring Cloud学习笔记-7.服务网关（2）</h1>
                   <div class="a-content">
                       
                       <div class="a-content-text">
@@ -233,6 +409,34 @@ public class RateLimitFilter extends ZuulFilter {
 <ul>
 <li>参考一个限流开源项目<a href="https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit">https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit</a></li>
 </ul>
+
+<h2 id="toc_3">跨域问题解决</h2>
+
+<ul>
+<li><p>在需要跨域的被调用类上增加<code>@CrossOrigin</code>注解</p></li>
+<li><p>在Zuul里增加CorsFilter过滤器，如：</p></li>
+</ul>
+
+<pre><code>@Configuration
+public class CorsConfig {
+
+    @Bean
+    public CorsFilter corsFilter() {
+
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final CorsConfiguration config = new CorsConfiguration();
+
+        config.setAllowCredentials(true);
+        config.setAllowedOrigins(Arrays.asList(&quot;*&quot;)); //www.abc.com
+        config.setAllowedHeaders(Arrays.asList(&quot;*&quot;));
+        config.setAllowedMethods(Arrays.asList(&quot;*&quot;));
+        config.setMaxAge(300l);
+
+        source.registerCorsConfiguration(&quot;/**&quot;, config);
+        return new CorsFilter(source);
+    }
+}
+</code></pre>
 
                         
                       </div>
@@ -378,6 +582,11 @@ eureka:
       sensitiveHeaders:
 </code></pre>
 
+<pre><code>zuul:
+  #全部服务忽略敏感头（全部服务都可以传递cookie）
+  sensitive-headers: 
+</code></pre>
+
 <ul>
 <li>动态路由，请建一个类，刷新路由配置</li>
 </ul>
@@ -398,6 +607,12 @@ public class ZuulConfig {
 <ul>
 <li>多个zuul节点注册到Eureka Server</li>
 <li>Nginx和zuul混搭</li>
+</ul>
+
+<h1 id="toc_6">解决Zuul刚启动第一次访问页面出错的问题</h1>
+
+<ul>
+<li>可以配置Hystrix超时配置</li>
 </ul>
 
                         
@@ -513,194 +728,6 @@ public class ZuulConfig {
                 </div>
               </div><!-- article -->
         
-			<div class="article">
-                <a class="clearlink" href="15315781706116.html">
-                
-                  <h1>Spring Cloud学习笔记-5.config配置中心</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h2 id="toc_0">使用方法</h2>
-
-<p>1.pom.xml引入依赖</p>
-
-<pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</code></pre>
-
-<p>2.项目主启动文件增加<code>@EnableDiscoveryClient</code>和<code>@EnableConfigServer</code>注解，完成服务注册和开启config server服务</p>
-
-<p>3.在application.yml指定git配置路径</p>
-
-<pre><code>spring:
-  application:
-    name: config
-  cloud:
-    config:
-      server:
-        git:
-          uri: https://gitlab-demo.com/6003575/my-config-repo.git
-          username: 6003575
-          password: abcd1234
-          basedir: /Users/daiqiang/Dev/java/springcloud_sell/config-repo
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-</code></pre>
-
-<ul>
-<li>可以通过<code>http://localhost:8082(服务指定端口号)/filename-a.yml</code>文件来检验是否从配置服务器获取到指定配置</li>
-<li>文件名有规则，如：/{label}/{name}-{profiles}.yml，label指分支，name为原文件名，profiles为环境，后面为扩展名</li>
-<li>本地git仓库路径可以通过<code>basedir</code>参数指定</li>
-<li>服务名+环境名的组合中，服务名.yml里存放多种环境公共的配置，服务名+环境名.yml文件中放差异性的配置，config client加载时，会合并主配置文件与当前环境配置文件的内容</li>
-</ul>
-
-<p>4.其它服务要使用配置中心，需要做如下修改：</p>
-
-<ul>
-<li>application.yml改名为bootstrap.yml</li>
-<li>在bootstrap.yml文件中加入配置，然后将需要放入配置中心的配置项移动到git配置文件中</li>
-</ul>
-
-<pre><code>spring:
-  cloud:
-    config:
-      discovery:
-        enabled: true
-        service-id: CONFIG
-      profile: dev
-</code></pre>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2018/7/14</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="15309599020091.html">
-                
-                  <h1>Spring Cloud学习笔记-4.Ribbon应用间通信</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h2 id="toc_0">HTTP VS RPC</h2>
-
-<ul>
-<li>Dubbo定位是RPC框架，可以作为Spring Cloud二进制通信方案</li>
-<li>Spring Cloud是微服务架构下的一站式解决方案</li>
-</ul>
-
-<h2 id="toc_1">客户端负载均衡器：Ribbon</h2>
-
-<ul>
-<li>RestTemplate
-
-<ul>
-<li>使用Rest方式调用其它服务</li>
-</ul></li>
-<li>Feign
-
-<ul>
-<li>声明式REST客户端</li>
-<li>采用接口+注解的方式，即定义一个Interface，然后在上面加上注解</li>
-<li>使用时感觉不到是在调用REST，像是在用本地接口，底层还是使用了Ribbon的机制</li>
-</ul></li>
-<li>Zuul</li>
-</ul>
-
-<h2 id="toc_2">Ribbon主要能力</h2>
-
-<ul>
-<li>服务发现，根据服务名字，找出所有同名实例</li>
-<li>服务选择规则，依据规则策略，从多个服务中选择有效的服务</li>
-<li>服务监听，检测无效的服务，高效去除</li>
-</ul>
-
-<h2 id="toc_3">REST Template用法</h2>
-
-<ol>
-<li>直接使用RestTemplate，url写死</li>
-<li>用LoadBalancerClient通过应用名称获取url，然后再使用RestTemplate</li>
-<li>用@LoadBalanced，可在restTemplate里使用应用名字</li>
-</ol>
-
-<h2 id="toc_4">Ribbon主要组件</h2>
-
-<ul>
-<li>ServerList，获取所有的可用服务</li>
-<li>ServerListFilter：过滤到一部分地址</li>
-<li><p>IRule：选择一个实例</p>
-
-<ul>
-<li>在application.yml里配置选择策略，如：选择随机策略</li>
-</ul>
-
-<pre><code>ORDER:
-    ribbon:
-        NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
-</code></pre></li>
-</ul>
-
-<h2 id="toc_5">Feign使用方法</h2>
-
-<p>1.增加包依赖</p>
-
-<pre><code>        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-feign&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-</code></pre>
-
-<p>2.启动类增加<code>@EnableFeignClients</code>注解<br/>
-3.新建Client Interface，增加<code>@FeignClient(name = &quot;服务名&quot;)</code>注解<br/>
-4.在方法前增加<code>@GetMapping(&quot;/方法名&quot;)</code>注解，明确被调用的方法，这个注解跟被调用端的ServerController的方法有对应关系，要注意是完整路径对应，不要遗漏被调用类里<code>@RequestMapping</code>定义的路径</p>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2018/7/7</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
               
 
 
@@ -780,7 +807,19 @@ eureka:
 	      
 		      
 			      <li class="post">
-			        <a href="15389222292649.html"># Spring Cloud学习笔记-7.服务网关（2）</a>
+			        <a href="15395270781372.html">Spring Cloud学习笔记-9.服务追踪</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15395135852631.html">Spring Cloud学习笔记-8.服务容错和Hystrix</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15389222292649.html">Spring Cloud学习笔记-7.服务网关（2）</a>
 			      </li>
 		     
 		  
@@ -797,16 +836,8 @@ eureka:
 		     
 		  
 		      
-			      <li class="post">
-			        <a href="15328789649602.html">Service Mesh架构解读</a>
-			      </li>
-		     
 		  
 		      
-			      <li class="post">
-			        <a href="15316520707511.html">Service Mesh行业情况</a>
-			      </li>
-		     
 		  
 		      
 		  
