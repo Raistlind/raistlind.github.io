@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  Spring Cloud学习笔记-5.config配置中心 - The 10th Art
+  微信小程序学习笔记-1. - The 10th Art
   
   </title>
   
@@ -112,14 +112,14 @@
       <div class="markdown-body article-wrap">
        <div class="article">
           
-          <h1>Spring Cloud学习笔记-5.config配置中心</h1>
+          <h1>微信小程序学习笔记-1.</h1>
      
         <div class="read-more clearfix">
-          <span class="date">2018/7/14</span>
+          <span class="date">2018/10/20</span>
 
           <span>posted in&nbsp;</span> 
           
-              <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
+              <span class="posted-in"><a href='%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F.html'>微信小程序</a></span>
            
          
           <span class="comments">
@@ -132,60 +132,7 @@
       </div><!-- article -->
 
       <div class="article-content">
-      <h2 id="toc_0">使用方法</h2>
-
-<p>1.pom.xml引入依赖</p>
-
-<pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</code></pre>
-
-<p>2.项目主启动文件增加<code>@EnableDiscoveryClient</code>和<code>@EnableConfigServer</code>注解，完成服务注册和开启config server服务</p>
-
-<p>3.在application.yml指定git配置路径</p>
-
-<pre><code>spring:
-  application:
-    name: config
-  cloud:
-    config:
-      server:
-        git:
-          uri: https://gitlab-demo.com/6003575/my-config-repo.git
-          username: 6003575
-          password: abcd1234
-          basedir: /Users/daiqiang/Dev/java/springcloud_sell/config-repo
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-</code></pre>
-
-<ul>
-<li>可以通过<code>http://localhost:8082(服务指定端口号)/filename-a.yml</code>文件来检验是否从配置服务器获取到指定配置</li>
-<li>文件名有规则，如：/{label}/{name}-{profiles}.yml，label指分支，name为原文件名，profiles为环境，后面为扩展名</li>
-<li>本地git仓库路径可以通过<code>basedir</code>参数指定</li>
-<li>服务名+环境名的组合中，服务名.yml里存放多种环境公共的配置，服务名+环境名.yml文件中放差异性的配置，config client加载时，会合并主配置文件与当前环境配置文件的内容</li>
-</ul>
-
-<p>4.其它服务要使用配置中心，需要做如下修改：</p>
-
-<ul>
-<li>application.yml改名为bootstrap.yml</li>
-<li>在bootstrap.yml文件中加入配置，然后将需要放入配置中心的配置项移动到git配置文件中</li>
-</ul>
-
-<pre><code>spring:
-  cloud:
-    config:
-      discovery:
-        enabled: true
-        service-id: CONFIG
-      profile: dev
-</code></pre>
-
+      
 
     
 
@@ -195,16 +142,13 @@ eureka:
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
       
-          <a href="15316520707511.html" 
-          title="Previous Post: Service Mesh行业情况">&laquo; Service Mesh行业情况</a>
-      
         </p>
         </div>
         <div class="large-6 columns">
       <p class="text-right" style="padding:15px 0px;">
       
-          <a  href="15311410217445.html" 
-          title="Next Post: 5G概要">5G概要 &raquo;</a>
+          <a  href="15395270781372.html" 
+          title="Next Post: Spring Cloud学习笔记-9.服务追踪">Spring Cloud学习笔记-9.服务追踪 &raquo;</a>
       
       </p>
         </div>

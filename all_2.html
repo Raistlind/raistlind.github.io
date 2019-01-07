@@ -88,6 +88,8 @@
             <li><a href="5G.html">5G</a></li>
         
             <li><a href="ServiceMesh.html">ServiceMesh</a></li>
+        
+            <li><a href="%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F.html">微信小程序</a></li>
          
 
       </ul>
@@ -109,6 +111,109 @@
 	<div class="large-8 medium-8 columns">
 		<div class="markdown-body home-categories">
 		
+			<div class="article">
+                <a class="clearlink" href="15309599020091.html">
+                
+                  <h1>Spring Cloud学习笔记-4.Ribbon应用间通信</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">HTTP VS RPC</h2>
+
+<ul>
+<li>Dubbo定位是RPC框架，可以作为Spring Cloud二进制通信方案</li>
+<li>Spring Cloud是微服务架构下的一站式解决方案</li>
+</ul>
+
+<h2 id="toc_1">客户端负载均衡器：Ribbon</h2>
+
+<ul>
+<li>RestTemplate
+
+<ul>
+<li>使用Rest方式调用其它服务</li>
+</ul></li>
+<li>Feign
+
+<ul>
+<li>声明式REST客户端</li>
+<li>采用接口+注解的方式，即定义一个Interface，然后在上面加上注解</li>
+<li>使用时感觉不到是在调用REST，像是在用本地接口，底层还是使用了Ribbon的机制</li>
+</ul></li>
+<li>Zuul</li>
+</ul>
+
+<h2 id="toc_2">Ribbon主要能力</h2>
+
+<ul>
+<li>服务发现，根据服务名字，找出所有同名实例</li>
+<li>服务选择规则，依据规则策略，从多个服务中选择有效的服务</li>
+<li>服务监听，检测无效的服务，高效去除</li>
+</ul>
+
+<h2 id="toc_3">REST Template用法</h2>
+
+<ol>
+<li>直接使用RestTemplate，url写死</li>
+<li>用LoadBalancerClient通过应用名称获取url，然后再使用RestTemplate</li>
+<li>用@LoadBalanced，可在restTemplate里使用应用名字</li>
+</ol>
+
+<h2 id="toc_4">Ribbon主要组件</h2>
+
+<ul>
+<li>ServerList，获取所有的可用服务</li>
+<li>ServerListFilter：过滤到一部分地址</li>
+<li><p>IRule：选择一个实例</p>
+
+<ul>
+<li>在application.yml里配置选择策略，如：选择随机策略</li>
+</ul>
+
+<pre><code>ORDER:
+    ribbon:
+        NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+</code></pre></li>
+</ul>
+
+<h2 id="toc_5">Feign使用方法</h2>
+
+<p>1.增加包依赖</p>
+
+<pre><code>        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-feign&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+<p>2.启动类增加<code>@EnableFeignClients</code>注解<br/>
+3.新建Client Interface，增加<code>@FeignClient(name = &quot;服务名&quot;)</code>注解<br/>
+4.在方法前增加<code>@GetMapping(&quot;/方法名&quot;)</code>注解，明确被调用的方法，这个注解跟被调用端的ServerController的方法有对应关系，要注意是完整路径对应，不要遗漏被调用类里<code>@RequestMapping</code>定义的路径</p>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2018/7/7</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
 			<div class="article">
                 <a class="clearlink" href="15309599028203.html">
                 
@@ -479,96 +584,6 @@ $ kill 12345   //杀掉该id进程
                 </div>
               </div><!-- article -->
         
-			<div class="article">
-                <a class="clearlink" href="15301075535592.html">
-                
-                  <h1>Spring Cloud学习笔记-1.背景概述</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h2 id="toc_0">微服务是什么</h2>
-
-<ul>
-<li>James Lewis &amp; Martin Fowler 2014年3月25日写的《Microservices》</li>
-<li><a href="http://martinfowler.com/articles/microservices.html">http://martinfowler.com/articles/microservices.html</a></li>
-<li>微服务是一种架构风格，没有强制性，没有标准答案，如同Restful</li>
-<li>微服务特点：
-
-<ul>
-<li>一系列微小的服务组成</li>
-<li>一个微服务一个进程</li>
-<li>每个服务提供独立的业务功能</li>
-<li>独立部署</li>
-<li>分布式</li>
-<li>无状态</li>
-<li>被管理</li>
-<li>自动运维</li>
-<li>API/Restful</li>
-</ul></li>
-</ul>
-
-<h2 id="toc_1">单体架构优点和缺点</h2>
-
-<ul>
-<li>优点：容易测试和部署</li>
-<li>缺点：代码维护困难，发布依赖多，构建时间长，稳定性易受单个模块影响，扩展性不够，开发效率低</li>
-<li>其实微服务跟单体架构比没什么意思，毕竟不是一个时代的模式。分布式跟微服务才比较困扰</li>
-</ul>
-
-<h2 id="toc_2">分布式架构的优点和缺点</h2>
-
-<ul>
-<li>优点：分布式，多个自治的处理单元，不共享主内存，通过网络发送消息合作</li>
-<li>缺点：没有牵引微小化，部分模块仍然较大，存在单体架构的各种缺点</li>
-</ul>
-
-<h2 id="toc_3">微服务架构的主要组件</h2>
-
-<ul>
-<li>服务注册发现，Zookeeper，Eureka</li>
-<li>服务网关，连接内外，提供服务路由，屏蔽后台细节，还会提供限流和容错，监控和日志也可以在这做，用户认证、授权，反爬虫</li>
-<li>前端服务，边缘服务，对后端的服务进行聚合和裁剪
-
-<ul>
-<li>聚合：多个API逻辑进行聚合，减少后端请求数</li>
-<li>裁剪：根据用户环境，返回不一样的服务内容，比如：手机端跟PC端返回不一样的内容</li>
-</ul></li>
-<li>后端服务，提供业务功能</li>
-</ul>
-
-<h2 id="toc_4">Spring Cloud是什么</h2>
-
-<ul>
-<li>是一个开发工具集，包括了多个子项目</li>
-<li>Spring Boot提供开发便利性</li>
-<li>对Netflix开源组件进行封装</li>
-<li>降低了分布式开发门槛</li>
-</ul>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2018/6/27</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
               
 
 
@@ -632,6 +647,8 @@ $ kill 12345   //杀掉该id进程
             <a href="5G.html"><strong>5G</strong></a>
         
             <a href="ServiceMesh.html"><strong>ServiceMesh</strong></a>
+        
+            <a href="%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F.html"><strong>微信小程序</strong></a>
          
         </p>
 
@@ -646,6 +663,12 @@ $ kill 12345   //杀掉该id进程
                 <div class="side-content">
                 <ul class="posts-list">
 	      
+		      
+			      <li class="post">
+			        <a href="15399993810473.html">微信小程序学习笔记-1.</a>
+			      </li>
+		     
+		  
 		      
 			      <li class="post">
 			        <a href="15395270781372.html">Spring Cloud学习笔记-9.服务追踪</a>
@@ -671,10 +694,6 @@ $ kill 12345   //杀掉该id进程
 		     
 		  
 		      
-			      <li class="post">
-			        <a href="15333992949791.html">Spring Cloud学习笔记-6.消息和异步处理</a>
-			      </li>
-		     
 		  
 		      
 		  

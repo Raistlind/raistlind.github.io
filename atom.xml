@@ -4,13 +4,23 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2018-10-17T23:17:31+08:00</updated>
+  <updated>2019-01-07T20:37:05+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
     
   </author>
   <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[微信小程序学习笔记-1.]]></title>
+    <link href="http://www.krynn.cn/15399993810473.html"/>
+    <updated>2018-10-20T09:36:21+08:00</updated>
+    <id>http://www.krynn.cn/15399993810473.html</id>
+    <content type="html"><![CDATA[
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Spring Cloud学习笔记-9.服务追踪]]></title>
