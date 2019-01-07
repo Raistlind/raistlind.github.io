@@ -48,7 +48,7 @@
 
         <ul class="right" id="search-wrap">
           <li>
-<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+<form target="_blank" onsubmit="return before_search();" action="https://google.com/search" method="get">
     <input type="hidden" id="search_q" name="q" value="" />
     <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
 </form>
@@ -146,7 +146,6 @@
 <li>最上面展现层，基于gin和vue.js实现web服务。</li>
 <li>前后台中间设置api层，目前主流的前后台交互通过专用apiserver进行业务逻辑的包装和转发方式，k8s，promuthues等都是这样。前台只负责页面渲染、数据呈现和人机交互。后台服务层负责业务逻辑处理和数据持久化。</li>
 <li>然后是服务层，里面又分成业务场景层和资源管理层。
-
 <ul>
 <li>顾名思义，业务场景层是与资源管理相关场景所需的功能域，如拓扑呈现。拓扑呈现需要根据资源模型和关系定义，维护CI间的关系路径，这里面包含了大量的业务逻辑，如依赖关系校验、承载规则等等，跟业务强相关的东西。随着业务的深入，变化会比较大，属于扩展性要求高的一层，剥离出来单独分层比较好。目前已提取的场景包括：管理、事件、进程、主机、拓扑、数据采集等几个服务；</li>
 <li>下面是资源管理层，这层的功能相对比较稳定，属于原子性的功能和模型，受业务影响小，以稳定性、性能、可靠性等为主要考量。主要把管理对象抽象成主机、进程和通用对象三类，这种抽象方法IT针对性太强，做一些行业应用需要自己扩展，另外还有一个审计服务。</li>
@@ -155,7 +154,7 @@
 </ul>
 
 <ol>
-<li>再看看实现架构/代码工程
+<li>再看看实现架构/代码工程<br/>
 下次再写</li>
 </ol>
 

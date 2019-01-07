@@ -48,7 +48,7 @@
 
         <ul class="right" id="search-wrap">
           <li>
-<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+<form target="_blank" onsubmit="return before_search();" action="https://google.com/search" method="get">
     <input type="hidden" id="search_q" name="q" value="" />
     <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
 </form>
@@ -138,7 +138,7 @@
 <li>例子：定义一个检查token请求参数的pre filter</li>
 </ul>
 
-<pre><code>@Component
+<pre><code class="language-text">@Component
 public class TokenFilter extends ZuulFilter {
 
 
@@ -179,7 +179,7 @@ public class TokenFilter extends ZuulFilter {
 <li>定义一个post filter，在response的header里添加参数</li>
 </ul>
 
-<pre><code>@Component
+<pre><code class="language-text">@Component
 public class AddResponseHeaderFilter extends ZuulFilter {
     @Override
     public String filterType() {
@@ -214,7 +214,7 @@ public class AddResponseHeaderFilter extends ZuulFilter {
 <li>定义Pre Filter，优先级通常设为最高，在认证鉴权之前</li>
 </ul>
 
-<pre><code>@Component
+<pre><code class="language-text">@Component
 public class RateLimitFilter extends ZuulFilter {
 
     // Google的令牌桶算法
@@ -256,7 +256,7 @@ public class RateLimitFilter extends ZuulFilter {
 <li><p>在Zuul里增加CorsFilter过滤器，如：</p></li>
 </ul>
 
-<pre><code>@Configuration
+<pre><code class="language-text">@Configuration
 public class CorsConfig {
 
     @Bean

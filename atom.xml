@@ -4,7 +4,7 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2019-01-07T20:37:05+08:00</updated>
+  <updated>2019-01-07T22:34:15+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -34,7 +34,7 @@
 <li>pom引入依赖</li>
 </ul>
 
-<pre><code>        &lt;dependency&gt;
+<pre><code class="language-text">        &lt;dependency&gt;
             &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
             &lt;artifactId&gt;spring-cloud-starter-sleuth&lt;/artifactId&gt;
         &lt;/dependency&gt;
@@ -56,36 +56,30 @@
 <li>通过HystrixCommand注解指定</li>
 <li><p>fallbackMethod（回退函数）中具体实现降低逻辑</p></li>
 <li><p>使用方法</p>
-
 <ul>
 <li>pom中引入依赖</li>
 </ul>
-
-<pre><code>        &lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-cloud-starter-hystrix&lt;/artifactId&gt;
+<pre><code class="language-text">        &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;<br/>
+        &lt;artifactId&gt;spring-cloud-starter-hystrix&lt;/artifactId&gt;<br/>
     &lt;/dependency&gt;
 </code></pre>
-
 <ul>
 <li>在主类上添加注解<code>@EnableCircuitBreaker)</code>(或者@SpringCloudApplication = @SpringBootApplication + @EnableDiscoveryClient + @EnableCircuitBreaker)</li>
 </ul>
-
-<pre><code>//@SpringBootApplication
-//@EnableDiscoveryClient
-//@EnableCircuitBreaker
+<pre><code class="language-text">//@SpringBootApplication
+//@EnableDiscoveryClient<br/>
+//@EnableCircuitBreaker<br/>
 @SpringCloudApplication
 </code></pre>
-
 <ul>
 <li>然后在对应的Controller类的方法上增加注解，如：@HystrixCommand(fallbackMethod = &quot;fallback&quot;)，然后实现应用的方法，如：fallback()</li>
 <li>除了被调用服务失败可以触发降级外，自己主动抛出异常同样可以触发降级</li>
 <li>可能通过在类前添加注解@DefaultProperties(defaultFallback = &quot;defaultFallback&quot;)，然后实现对应方法就可以让本类内所有方法都使用该降级处理。各方法的@HystrixCommand注解后不需要添加fallbackMethod参数</li>
 <li>@HystrixCommand有很多参数可以设置，用来调降级条件，如：设置调用超时时间为3秒配置如下：</li>
 </ul>
-
-<pre><code>@HystrixCommand(commandProperties = {
-        @HystrixProperty(name = &quot;execution.isolation.thread.timeoutInMilliseconds&quot;, value = &quot;3000&quot;)
+<pre><code class="language-text">@HystrixCommand(commandProperties = {
+        @HystrixProperty(name = &quot;execution.isolation.thread.timeoutInMilliseconds&quot;, value = &quot;3000&quot;)<br/>
 })
 </code></pre></li>
 </ul>
@@ -103,7 +97,7 @@
 <li>短暂的故障通过重试来解决，长时间的故障通过断路器解决</li>
 </ul>
 
-<pre><code>    //设置断路器
+<pre><code class="language-text">    //设置断路器
     @HystrixCommand(commandProperties = {
             @HystrixProperty(name = &quot;circuitBreaker.enabled&quot;, value = &quot;true&quot;),
             //滚动时间窗口内，断路器最小请求数
@@ -119,7 +113,7 @@
 <li>以上配置也可以通过bootstrap.yml配置文件设置，如：3秒超时的配法，但还是需要在方法里加上@HystrixCommand注解。同时，为特定方法设置特殊阈值，可以将该方法名写到配置中指定，如：getProductInfoList</li>
 </ul>
 
-<pre><code>hystrix:
+<pre><code class="language-text">hystrix:
   command:
     default:
       execution:
@@ -140,7 +134,7 @@
 <li>pom引入dashboard</li>
 </ul>
 
-<pre><code>        &lt;dependency&gt;
+<pre><code class="language-text">        &lt;dependency&gt;
             &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
             &lt;artifactId&gt;spring-cloud-starter-hystrix-dashboard&lt;/artifactId&gt;
         &lt;/dependency&gt;
@@ -166,7 +160,7 @@
 <li>例子：定义一个检查token请求参数的pre filter</li>
 </ul>
 
-<pre><code>@Component
+<pre><code class="language-text">@Component
 public class TokenFilter extends ZuulFilter {
 
 
@@ -207,7 +201,7 @@ public class TokenFilter extends ZuulFilter {
 <li>定义一个post filter，在response的header里添加参数</li>
 </ul>
 
-<pre><code>@Component
+<pre><code class="language-text">@Component
 public class AddResponseHeaderFilter extends ZuulFilter {
     @Override
     public String filterType() {
@@ -242,7 +236,7 @@ public class AddResponseHeaderFilter extends ZuulFilter {
 <li>定义Pre Filter，优先级通常设为最高，在认证鉴权之前</li>
 </ul>
 
-<pre><code>@Component
+<pre><code class="language-text">@Component
 public class RateLimitFilter extends ZuulFilter {
 
     // Google的令牌桶算法
@@ -284,7 +278,7 @@ public class RateLimitFilter extends ZuulFilter {
 <li><p>在Zuul里增加CorsFilter过滤器，如：</p></li>
 </ul>
 
-<pre><code>@Configuration
+<pre><code class="language-text">@Configuration
 public class CorsConfig {
 
     @Bean
@@ -348,7 +342,7 @@ public class CorsConfig {
 <li>引入工程依赖</li>
 </ul>
 
-<pre><code>        &lt;dependency&gt;
+<pre><code class="language-text">        &lt;dependency&gt;
             &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
             &lt;artifactId&gt;spring-cloud-starter-netflix-zuul&lt;/artifactId&gt;
         &lt;/dependency&gt;
@@ -358,7 +352,7 @@ public class CorsConfig {
 <li>bootstrap.yml里配置环境</li>
 </ul>
 
-<pre><code>spring:
+<pre><code class="language-text">spring:
   application:
     name: api-gateway
   cloud:
@@ -383,7 +377,7 @@ eureka:
 <li>在bootstrap.yml文件里增加路由</li>
 </ul>
 
-<pre><code>zuul:
+<pre><code class="language-text">zuul:
   routes:
     myProduct:
       path: /myProduct/**
@@ -392,14 +386,14 @@ eureka:
 
 <p>简单写法</p>
 
-<pre><code>      product: /myProduct/**
+<pre><code class="language-text">      product: /myProduct/**
 </code></pre>
 
 <ul>
 <li>允许查看路由信息，在bootstrap.yml文件里增加如下配置，然后访问：<a href="http://ip:port/application/routes">http://ip:port/application/routes</a></li>
 </ul>
 
-<pre><code>management:
+<pre><code class="language-text">management:
   security:
     enabled: false
 </code></pre>
@@ -408,7 +402,7 @@ eureka:
 <li>排除某些路由</li>
 </ul>
 
-<pre><code>  ignored-patterns:
+<pre><code class="language-text">  ignored-patterns:
     - /url1
     - /**/product/list
 </code></pre>
@@ -417,7 +411,7 @@ eureka:
 <li>传递Cookie，将sensitiveHeaders设为空即可</li>
 </ul>
 
-<pre><code>zuul:
+<pre><code class="language-text">zuul:
   # 增加路由
   routes:
     myProduct:
@@ -427,7 +421,7 @@ eureka:
       sensitiveHeaders:
 </code></pre>
 
-<pre><code>zuul:
+<pre><code class="language-text">zuul:
   #全部服务忽略敏感头（全部服务都可以传递cookie）
   sensitive-headers: 
 </code></pre>
@@ -436,7 +430,7 @@ eureka:
 <li>动态路由，请建一个类，刷新路由配置</li>
 </ul>
 
-<pre><code>@Component
+<pre><code class="language-text">@Component
 public class ZuulConfig {
 
     @ConfigurationProperties(&quot;zuul&quot;)
@@ -475,7 +469,7 @@ public class ZuulConfig {
 <li>pom里引入</li>
 </ul>
 
-<pre><code>&lt;dependency&gt;
+<pre><code class="language-text">&lt;dependency&gt;
     &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
     &lt;artifactId&gt;spring-cloud-starter-bus-amqp&lt;/artifactId&gt;
 &lt;/dependency&gt;
@@ -487,7 +481,7 @@ public class ZuulConfig {
 <li><p>自动创建，Exchange和Queue绑定。这种情况通常用在有多个不能的消息topic时，不同的进程消费不同的topic</p></li>
 </ol>
 
-<pre><code>@RabbitListener(bindings = @QueueBinding(
+<pre><code class="language-text">@RabbitListener(bindings = @QueueBinding(
         value = @Queue(&quot;myQueue&quot;),
         key = &quot;myKey&quot;,
         exchange = @Exchange(&quot;myExchange&quot;)
@@ -501,7 +495,7 @@ public class ZuulConfig {
 <li><p>pom.xml里引入</p></li>
 </ul>
 
-<pre><code>        &lt;dependency&gt;
+<pre><code class="language-text">        &lt;dependency&gt;
             &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
             &lt;artifactId&gt;spring-cloud-starter-bus-amqp&lt;/artifactId&gt;
         &lt;/dependency&gt;
@@ -516,7 +510,7 @@ public class ZuulConfig {
 <li>设置消息队列名及消息格式，便于定位问题时，直接在rabbitMQ控制台可以直接看到消息内容，在bootstrap.yml里增加配置项如下：</li>
 </ul>
 
-<pre><code>  cloud:
+<pre><code class="language-text">  cloud:
     stream:
       bindings:
         myMessage:
@@ -551,7 +545,6 @@ public class ZuulConfig {
 
 <ul>
 <li>Linkerd
-
 <ul>
 <li>无控制平面</li>
 <li>Scala编写，基于JVM资源消耗大</li>
@@ -559,16 +552,14 @@ public class ZuulConfig {
 <li>发展前景暗淡</li>
 </ul></li>
 <li>Envoy
-
 <ul>
 <li>只有数据平面，提供XDS API，xDS APi基本上成为Service Mesh事实上的控制平面和数据平面间的标准</li>
 <li>设计优秀，性能和稳定性表现良好</li>
 <li>C++编写</li>
-<li>行业上形成趋势，如：有部分公司开始用envoy替换nginx，说明其成熟度、稳定性和性能达到nginx类似级别
+<li>行业上形成趋势，如：有部分公司开始用envoy替换nginx，说明其成熟度、稳定性和性能达到nginx类似级别<br/>
 ## 第二代Service Mesh</li>
 </ul></li>
 <li>Istio
-
 <ul>
 <li>基于Envoy数据平面，提供控制平面</li>
 <li>当前0.8版本，是长期支持版本，还未发布1.0</li>
@@ -576,14 +567,12 @@ public class ZuulConfig {
 <li>性能不突出</li>
 </ul></li>
 <li>Conduit
-
 <ul>
 <li>数据平面用Rust编写，过于小众，committer人数少，25个左右，难以借用社区开发力量</li>
-<li>只支持k8s
+<li>只支持k8s<br/>
 ## 国内公司做法</li>
 </ul></li>
 <li>华为CES Mesher
-
 <ul>
 <li>使用Golang编写，由go chassis演进而来</li>
 <li>走的是已有类库-&gt;加proxy-&gt;再加控制平面的路线</li>
@@ -591,19 +580,16 @@ public class ZuulConfig {
 <li>即将开源</li>
 </ul></li>
 <li>新浪微博Motan Mesh
-
 <ul>
 <li>使用Golang编写</li>
 <li>全新实现</li>
 </ul></li>
 <li>腾讯Tencent Service Mesh
-
 <ul>
 <li>数据平面使用Envoy</li>
 <li>控制平面基于Istio进行定制和扩展，解耦k8s</li>
 </ul></li>
 <li>UCloud Service Mesh
-
 <ul>
 <li>轻量级实践,从Istio里剥离Pilot和Envoy</li>
 <li>去掉Mixer和Auth</li>
@@ -625,7 +611,7 @@ public class ZuulConfig {
 
 <p>1.pom.xml引入依赖</p>
 
-<pre><code>&lt;dependency&gt;
+<pre><code class="language-text">&lt;dependency&gt;
     &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
     &lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;
 &lt;/dependency&gt;
@@ -635,7 +621,7 @@ public class ZuulConfig {
 
 <p>3.在application.yml指定git配置路径</p>
 
-<pre><code>spring:
+<pre><code class="language-text">spring:
   application:
     name: config
   cloud:
@@ -666,7 +652,7 @@ eureka:
 <li>在bootstrap.yml文件中加入配置，然后将需要放入配置中心的配置项移动到git配置文件中</li>
 </ul>
 
-<pre><code>spring:
+<pre><code class="language-text">spring:
   cloud:
     config:
       discovery:
@@ -720,19 +706,16 @@ eureka:
 
 <ul>
 <li><p>运营商面临的挑战</p>
-
 <ul>
 <li>OTT应用大量取代电信运营商的业务</li>
 <li>OTT应用还大量占用电信网络信令资源，运营商产生“量收剪刀差”</li>
 </ul></li>
 <li><p>用户需求的挑战</p>
-
 <ul>
 <li>用户追求极致体验要求高接入速率、低时延、随时随地无缝连接，如：视频、AR、VR</li>
 <li>各种行业和移动通信的融合，特别是物联网行业</li>
 </ul></li>
 <li><p>技术面临的挑战</p>
-
 <ul>
 <li>云计算的广泛使用，未来终端与网络之间将出现大量的控制类信令交互，现有的语音通信模型将不再适用，需要针对小数据包频发消耗信令资源的问题，对无线空口和核心网进行重构</li>
 <li>超高清视频、3D和VR等业务需要极高的网络传输速率，如：8K 3D的视频需要100Gbps的传输速率，压缩后也需要1Gbps</li>
@@ -750,7 +733,6 @@ eureka:
 <li>5G不仅是更高速率、更大带宽、更强能力的空口技术，更是面向业务应用和用户体验的智能网络</li>
 <li>5G不再由某项业务能力或者某个典型技术特征所定义，它将是一个多业务多技术融合的网络</li>
 <li>5G的基本特征
-
 <ul>
 <li>高速率：峰值速率大于20Gbps</li>
 <li>低时延：从4G的50ms缩减到1ms</li>
@@ -782,10 +764,8 @@ eureka:
 <li>5G新空口将采用新型多址、多规模天线、新波型（FBMC、SCMA、PDMA、MUSA）、超密集组网和全频谱接入等核心技术，在帧结构、信令流程、双工方式上进行改进，形成面向连续广域覆盖、高热点容量、低时延、高可靠和低功耗大连接等场景的空口技术方案</li>
 <li>SDN和NFV成为5G网络的重要特征</li>
 <li><p>网络切片：利用虚拟化将网络物理基础设施资源虚拟化为多个相互独立平行的虚拟网络切片。一个网络切片可以视为一个实例化的5G网络，在每个网络切片内，运营商可以进一步对虚拟网络切片进行灵活的分割，按需创建子网络</p>
-
 <ul>
 <li><p>多横三纵</p>
-
 <table>
 <thead>
 <tr>
@@ -795,7 +775,6 @@ eureka:
 <th>数据网和服务切片</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>智能手机网络切片</td>
@@ -824,7 +803,6 @@ eureka:
 </tbody>
 </table></li>
 <li><p>编排和自动化是网络切片的关键</p>
-
 <ul>
 <li>具备快速创建新服务的能力</li>
 <li>具备应用模板驱动（Template Driven）切片创建环境的能力</li>
@@ -857,12 +835,10 @@ eureka:
 
 <ul>
 <li>RestTemplate
-
 <ul>
 <li>使用Rest方式调用其它服务</li>
 </ul></li>
 <li>Feign
-
 <ul>
 <li>声明式REST客户端</li>
 <li>采用接口+注解的方式，即定义一个Interface，然后在上面加上注解</li>
@@ -893,13 +869,11 @@ eureka:
 <li>ServerList，获取所有的可用服务</li>
 <li>ServerListFilter：过滤到一部分地址</li>
 <li><p>IRule：选择一个实例</p>
-
 <ul>
 <li>在application.yml里配置选择策略，如：选择随机策略</li>
 </ul>
-
-<pre><code>ORDER:
-    ribbon:
+<pre><code class="language-text">ORDER:
+    ribbon:<br/>
         NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
 </code></pre></li>
 </ul>
@@ -908,7 +882,7 @@ eureka:
 
 <p>1.增加包依赖</p>
 
-<pre><code>        &lt;dependency&gt;
+<pre><code class="language-text">        &lt;dependency&gt;
             &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
             &lt;artifactId&gt;spring-cloud-starter-feign&lt;/artifactId&gt;
         &lt;/dependency&gt;
@@ -990,31 +964,29 @@ eureka:
 <ul>
 <li>EurekaApplication.java需要加入注解<code>@EnableEurekaServer</code></li>
 <li><p>配置application.yml</p>
-
-<pre><code>    eureka:
-        client:
-            service-url:
-            defaultZone: http://localhost:8761/eureka
-            register-with-eureka: false //关闭自己做为客户端注册
-        server:
-            enable-self-preservation: false //关闭客户端检测保护
-    spring:
-        application:
-            name: eureka
-    server:
-        port: 8761
+<pre><code class="language-text">    eureka:
+        client:<br/>
+            service-url:<br/>
+            defaultZone: http://localhost:8761/eureka<br/>
+            register-with-eureka: false //关闭自己做为客户端注册<br/>
+        server:<br/>
+            enable-self-preservation: false //关闭客户端检测保护<br/>
+    spring:<br/>
+        application:<br/>
+            name: eureka<br/>
+    server:<br/>
+        port: 8761<br/>
     ```
 </code></pre></li>
 </ul>
 
 <ul>
 <li><p>将eureka放入后台运行</p>
-
-<pre><code>```
-//在命令行打包
-$ mvn clean package
-//放入后台执行
-$ nohup java -jar target/eureka-0.0.1-SNAPSHOT.jar &gt; /dev/null 2&gt;&amp;1 &amp;
+<pre><code class="language-text">```
+//在命令行打包<br/>
+$ mvn clean package<br/>
+//放入后台执行<br/>
+$ nohup java -jar target/eureka-0.0.1-SNAPSHOT.jar &gt; /dev/null 2&gt;&amp;1 &amp;<br/>
 ```
 </code></pre></li>
 </ul>
@@ -1023,33 +995,29 @@ $ nohup java -jar target/eureka-0.0.1-SNAPSHOT.jar &gt; /dev/null 2&gt;&amp;1 &a
 
 <ul>
 <li><p>引入依赖，靠idea不靠谱，2.0.0正式版以上，会漏了最后一个，让我调测半天</p>
-
-<pre><code>    &lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
-    &lt;/dependency&gt;
-
-    &lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
-        &lt;scope&gt;test&lt;/scope&gt;
-    &lt;/dependency&gt;
-
-    &lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+<pre><code class="language-text">    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;<br/>
+        &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;<br/>
+    &lt;/dependency&gt;<br/>
+    &lt;dependency&gt;<br/>
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;<br/>
+        &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;<br/>
+        &lt;scope&gt;test&lt;/scope&gt;<br/>
+    &lt;/dependency&gt;<br/>
+    &lt;dependency&gt;<br/>
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;<br/>
+        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;<br/>
     &lt;/dependency&gt;
 </code></pre></li>
 <li><p>application.yml里配上注册中心地址</p>
-
-<pre><code>eureka:
-    client:
-        serviceUrl:
-        defaultZone: http://127.0.0.1:8761/eureka/
-  instance:
-    hostname: clientName //设置注册记录里的Status列里的链接地址
-spring:
-    application:
+<pre><code class="language-text">eureka:
+    client:<br/>
+        serviceUrl:<br/>
+        defaultZone: http://127.0.0.1:8761/eureka/<br/>
+  instance:<br/>
+    hostname: clientName //设置注册记录里的Status列里的链接地址<br/>
+spring:<br/>
+    application:<br/>
         name: customer-service
 </code></pre></li>
 <li><p>在启动的主类加<code>@EnableDiscoveryClient</code>注解</p></li>
@@ -1060,13 +1028,11 @@ spring:
 <ul>
 <li>生态环境3台起步为佳</li>
 <li>Eureka Server端配置
-
 <ul>
 <li>多个Server各自配置VM启动参数<code>-Dserver.port=xxxx</code></li>
 <li>各Server的application.yml文件中，<code>eureka.client.serverUrl.defaultZone</code>参数配置为其它Server的注册地址，超过两个Server以上Eureka集群时，配置两个地址，用逗号分隔。很多Server的集群中，这两个地址的策略可以定为两两组合，每个Server实例配置的地址互相错开，不用完全一样</li>
 </ul></li>
 <li>Eureka Client端的配置
-
 <ul>
 <li>application.yml文件中，配置<code>eureka.client.serverUrl.defaultZone</code>参数配置为多个Server注册地址，中间用逗号分隔</li>
 </ul></li>
@@ -1077,7 +1043,6 @@ spring:
 <ul>
 <li>Eureka提供REST服务调用方式</li>
 <li>其它语言只需求根据REST API实现自己的客户端即可
-
 <ul>
 <li>Node.js有Eureka-js-client</li>
 </ul></li>
@@ -1095,13 +1060,13 @@ spring:
     <content type="html"><![CDATA[
 <h2 id="toc_0">查找端口占用</h2>
 
-<pre><code>$ lsof -i:8080 //查询该端口8080的进程id
+<pre><code class="language-text">$ lsof -i:8080 //查询该端口8080的进程id
 $ kill 12345   //杀掉该id进程
 </code></pre>
 
 <h2 id="toc_1">查看进程状态</h2>
 
-<pre><code>$ ps -ef | grep eureka
+<pre><code class="language-text">$ ps -ef | grep eureka
 </code></pre>
 
 ]]></content>
@@ -1118,7 +1083,6 @@ $ kill 12345   //杀掉该id进程
 <ul>
 <li>Drools规则文件，drl</li>
 <li>解释执行规则，API
-
 <ul>
 <li>规则编译</li>
 <li>规则收集</li>
@@ -1145,7 +1109,6 @@ $ kill 12345   //杀掉该id进程
 <li>KIE=knowledge is everything</li>
 <li>KIE包括Drools、OptaPlanner、UberFire、jBPM四个项目，KIE本身是四个项目公共的一些接口定义，具体实现在各项目中</li>
 <li>KIE的生命周期：
-
 <ul>
 <li>编写：编写规则文件，如：drl、bpmn2、决策表、实体类等</li>
 <li>构建：变成一个可发布部署的文件，通常是jar</li>
@@ -1216,7 +1179,6 @@ $ kill 12345   //杀掉该id进程
 <li><a href="http://martinfowler.com/articles/microservices.html">http://martinfowler.com/articles/microservices.html</a></li>
 <li>微服务是一种架构风格，没有强制性，没有标准答案，如同Restful</li>
 <li>微服务特点：
-
 <ul>
 <li>一系列微小的服务组成</li>
 <li>一个微服务一个进程</li>
@@ -1251,7 +1213,6 @@ $ kill 12345   //杀掉该id进程
 <li>服务注册发现，Zookeeper，Eureka</li>
 <li>服务网关，连接内外，提供服务路由，屏蔽后台细节，还会提供限流和容错，监控和日志也可以在这做，用户认证、授权，反爬虫</li>
 <li>前端服务，边缘服务，对后端的服务进行聚合和裁剪
-
 <ul>
 <li>聚合：多个API逻辑进行聚合，减少后端请求数</li>
 <li>裁剪：根据用户环境，返回不一样的服务内容，比如：手机端跟PC端返回不一样的内容</li>
@@ -1291,7 +1252,6 @@ $ kill 12345   //杀掉该id进程
 <li>最上面展现层，基于gin和vue.js实现web服务。</li>
 <li>前后台中间设置api层，目前主流的前后台交互通过专用apiserver进行业务逻辑的包装和转发方式，k8s，promuthues等都是这样。前台只负责页面渲染、数据呈现和人机交互。后台服务层负责业务逻辑处理和数据持久化。</li>
 <li>然后是服务层，里面又分成业务场景层和资源管理层。
-
 <ul>
 <li>顾名思义，业务场景层是与资源管理相关场景所需的功能域，如拓扑呈现。拓扑呈现需要根据资源模型和关系定义，维护CI间的关系路径，这里面包含了大量的业务逻辑，如依赖关系校验、承载规则等等，跟业务强相关的东西。随着业务的深入，变化会比较大，属于扩展性要求高的一层，剥离出来单独分层比较好。目前已提取的场景包括：管理、事件、进程、主机、拓扑、数据采集等几个服务；</li>
 <li>下面是资源管理层，这层的功能相对比较稳定，属于原子性的功能和模型，受业务影响小，以稳定性、性能、可靠性等为主要考量。主要把管理对象抽象成主机、进程和通用对象三类，这种抽象方法IT针对性太强，做一些行业应用需要自己扩展，另外还有一个审计服务。</li>
@@ -1300,7 +1260,7 @@ $ kill 12345   //杀掉该id进程
 </ul>
 
 <ol>
-<li>再看看实现架构/代码工程
+<li>再看看实现架构/代码工程<br/>
 下次再写</li>
 </ol>
 

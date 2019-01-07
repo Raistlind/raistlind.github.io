@@ -48,7 +48,7 @@
 
         <ul class="right" id="search-wrap">
           <li>
-<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+<form target="_blank" onsubmit="return before_search();" action="https://google.com/search" method="get">
     <input type="hidden" id="search_q" name="q" value="" />
     <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
 </form>
@@ -121,13 +121,13 @@
                         
                         	<h2 id="toc_0">查找端口占用</h2>
 
-<pre><code>$ lsof -i:8080 //查询该端口8080的进程id
+<pre><code class="language-text">$ lsof -i:8080 //查询该端口8080的进程id
 $ kill 12345   //杀掉该id进程
 </code></pre>
 
 <h2 id="toc_1">查看进程状态</h2>
 
-<pre><code>$ ps -ef | grep eureka
+<pre><code class="language-text">$ ps -ef | grep eureka
 </code></pre>
 
                         

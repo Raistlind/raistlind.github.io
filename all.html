@@ -48,7 +48,7 @@
 
         <ul class="right" id="search-wrap">
           <li>
-<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+<form target="_blank" onsubmit="return before_search();" action="https://google.com/search" method="get">
     <input type="hidden" id="search_q" name="q" value="" />
     <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
 </form>
@@ -157,7 +157,7 @@
 <li>pom引入依赖</li>
 </ul>
 
-<pre><code>        &lt;dependency&gt;
+<pre><code class="language-text">        &lt;dependency&gt;
             &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
             &lt;artifactId&gt;spring-cloud-starter-sleuth&lt;/artifactId&gt;
         &lt;/dependency&gt;
@@ -201,36 +201,30 @@
 <li>通过HystrixCommand注解指定</li>
 <li><p>fallbackMethod（回退函数）中具体实现降低逻辑</p></li>
 <li><p>使用方法</p>
-
 <ul>
 <li>pom中引入依赖</li>
 </ul>
-
-<pre><code>        &lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-cloud-starter-hystrix&lt;/artifactId&gt;
+<pre><code class="language-text">        &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;<br/>
+        &lt;artifactId&gt;spring-cloud-starter-hystrix&lt;/artifactId&gt;<br/>
     &lt;/dependency&gt;
 </code></pre>
-
 <ul>
 <li>在主类上添加注解<code>@EnableCircuitBreaker)</code>(或者@SpringCloudApplication = @SpringBootApplication + @EnableDiscoveryClient + @EnableCircuitBreaker)</li>
 </ul>
-
-<pre><code>//@SpringBootApplication
-//@EnableDiscoveryClient
-//@EnableCircuitBreaker
+<pre><code class="language-text">//@SpringBootApplication
+//@EnableDiscoveryClient<br/>
+//@EnableCircuitBreaker<br/>
 @SpringCloudApplication
 </code></pre>
-
 <ul>
 <li>然后在对应的Controller类的方法上增加注解，如：@HystrixCommand(fallbackMethod = &quot;fallback&quot;)，然后实现应用的方法，如：fallback()</li>
 <li>除了被调用服务失败可以触发降级外，自己主动抛出异常同样可以触发降级</li>
 <li>可能通过在类前添加注解@DefaultProperties(defaultFallback = &quot;defaultFallback&quot;)，然后实现对应方法就可以让本类内所有方法都使用该降级处理。各方法的@HystrixCommand注解后不需要添加fallbackMethod参数</li>
 <li>@HystrixCommand有很多参数可以设置，用来调降级条件，如：设置调用超时时间为3秒配置如下：</li>
 </ul>
-
-<pre><code>@HystrixCommand(commandProperties = {
-        @HystrixProperty(name = &quot;execution.isolation.thread.timeoutInMilliseconds&quot;, value = &quot;3000&quot;)
+<pre><code class="language-text">@HystrixCommand(commandProperties = {
+        @HystrixProperty(name = &quot;execution.isolation.thread.timeoutInMilliseconds&quot;, value = &quot;3000&quot;)<br/>
 })
 </code></pre></li>
 </ul>
@@ -248,7 +242,7 @@
 <li>短暂的故障通过重试来解决，长时间的故障通过断路器解决</li>
 </ul>
 
-<pre><code>    //设置断路器
+<pre><code class="language-text">    //设置断路器
     @HystrixCommand(commandProperties = {
             @HystrixProperty(name = &quot;circuitBreaker.enabled&quot;, value = &quot;true&quot;),
             //滚动时间窗口内，断路器最小请求数
@@ -264,7 +258,7 @@
 <li>以上配置也可以通过bootstrap.yml配置文件设置，如：3秒超时的配法，但还是需要在方法里加上@HystrixCommand注解。同时，为特定方法设置特殊阈值，可以将该方法名写到配置中指定，如：getProductInfoList</li>
 </ul>
 
-<pre><code>hystrix:
+<pre><code class="language-text">hystrix:
   command:
     default:
       execution:
@@ -285,7 +279,7 @@
 <li>pom引入dashboard</li>
 </ul>
 
-<pre><code>        &lt;dependency&gt;
+<pre><code class="language-text">        &lt;dependency&gt;
             &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
             &lt;artifactId&gt;spring-cloud-starter-hystrix-dashboard&lt;/artifactId&gt;
         &lt;/dependency&gt;
@@ -333,7 +327,7 @@
 <li>例子：定义一个检查token请求参数的pre filter</li>
 </ul>
 
-<pre><code>@Component
+<pre><code class="language-text">@Component
 public class TokenFilter extends ZuulFilter {
 
 
@@ -374,7 +368,7 @@ public class TokenFilter extends ZuulFilter {
 <li>定义一个post filter，在response的header里添加参数</li>
 </ul>
 
-<pre><code>@Component
+<pre><code class="language-text">@Component
 public class AddResponseHeaderFilter extends ZuulFilter {
     @Override
     public String filterType() {
@@ -409,7 +403,7 @@ public class AddResponseHeaderFilter extends ZuulFilter {
 <li>定义Pre Filter，优先级通常设为最高，在认证鉴权之前</li>
 </ul>
 
-<pre><code>@Component
+<pre><code class="language-text">@Component
 public class RateLimitFilter extends ZuulFilter {
 
     // Google的令牌桶算法
@@ -451,7 +445,7 @@ public class RateLimitFilter extends ZuulFilter {
 <li><p>在Zuul里增加CorsFilter过滤器，如：</p></li>
 </ul>
 
-<pre><code>@Configuration
+<pre><code class="language-text">@Configuration
 public class CorsConfig {
 
     @Bean
@@ -537,7 +531,7 @@ public class CorsConfig {
 <li>引入工程依赖</li>
 </ul>
 
-<pre><code>        &lt;dependency&gt;
+<pre><code class="language-text">        &lt;dependency&gt;
             &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
             &lt;artifactId&gt;spring-cloud-starter-netflix-zuul&lt;/artifactId&gt;
         &lt;/dependency&gt;
@@ -547,7 +541,7 @@ public class CorsConfig {
 <li>bootstrap.yml里配置环境</li>
 </ul>
 
-<pre><code>spring:
+<pre><code class="language-text">spring:
   application:
     name: api-gateway
   cloud:
@@ -572,7 +566,7 @@ eureka:
 <li>在bootstrap.yml文件里增加路由</li>
 </ul>
 
-<pre><code>zuul:
+<pre><code class="language-text">zuul:
   routes:
     myProduct:
       path: /myProduct/**
@@ -581,14 +575,14 @@ eureka:
 
 <p>简单写法</p>
 
-<pre><code>      product: /myProduct/**
+<pre><code class="language-text">      product: /myProduct/**
 </code></pre>
 
 <ul>
 <li>允许查看路由信息，在bootstrap.yml文件里增加如下配置，然后访问：<a href="http://ip:port/application/routes">http://ip:port/application/routes</a></li>
 </ul>
 
-<pre><code>management:
+<pre><code class="language-text">management:
   security:
     enabled: false
 </code></pre>
@@ -597,7 +591,7 @@ eureka:
 <li>排除某些路由</li>
 </ul>
 
-<pre><code>  ignored-patterns:
+<pre><code class="language-text">  ignored-patterns:
     - /url1
     - /**/product/list
 </code></pre>
@@ -606,7 +600,7 @@ eureka:
 <li>传递Cookie，将sensitiveHeaders设为空即可</li>
 </ul>
 
-<pre><code>zuul:
+<pre><code class="language-text">zuul:
   # 增加路由
   routes:
     myProduct:
@@ -616,7 +610,7 @@ eureka:
       sensitiveHeaders:
 </code></pre>
 
-<pre><code>zuul:
+<pre><code class="language-text">zuul:
   #全部服务忽略敏感头（全部服务都可以传递cookie）
   sensitive-headers: 
 </code></pre>
@@ -625,7 +619,7 @@ eureka:
 <li>动态路由，请建一个类，刷新路由配置</li>
 </ul>
 
-<pre><code>@Component
+<pre><code class="language-text">@Component
 public class ZuulConfig {
 
     @ConfigurationProperties(&quot;zuul&quot;)

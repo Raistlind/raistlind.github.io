@@ -48,7 +48,7 @@
 
         <ul class="right" id="search-wrap">
           <li>
-<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+<form target="_blank" onsubmit="return before_search();" action="https://google.com/search" method="get">
     <input type="hidden" id="search_q" name="q" value="" />
     <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
 </form>
@@ -155,7 +155,6 @@
 
 <ul>
 <li>Linkerd
-
 <ul>
 <li>无控制平面</li>
 <li>Scala编写，基于JVM资源消耗大</li>
@@ -163,16 +162,14 @@
 <li>发展前景暗淡</li>
 </ul></li>
 <li>Envoy
-
 <ul>
 <li>只有数据平面，提供XDS API，xDS APi基本上成为Service Mesh事实上的控制平面和数据平面间的标准</li>
 <li>设计优秀，性能和稳定性表现良好</li>
 <li>C++编写</li>
-<li>行业上形成趋势，如：有部分公司开始用envoy替换nginx，说明其成熟度、稳定性和性能达到nginx类似级别
+<li>行业上形成趋势，如：有部分公司开始用envoy替换nginx，说明其成熟度、稳定性和性能达到nginx类似级别<br/>
 ## 第二代Service Mesh</li>
 </ul></li>
 <li>Istio
-
 <ul>
 <li>基于Envoy数据平面，提供控制平面</li>
 <li>当前0.8版本，是长期支持版本，还未发布1.0</li>
@@ -180,14 +177,12 @@
 <li>性能不突出</li>
 </ul></li>
 <li>Conduit
-
 <ul>
 <li>数据平面用Rust编写，过于小众，committer人数少，25个左右，难以借用社区开发力量</li>
-<li>只支持k8s
+<li>只支持k8s<br/>
 ## 国内公司做法</li>
 </ul></li>
 <li>华为CES Mesher
-
 <ul>
 <li>使用Golang编写，由go chassis演进而来</li>
 <li>走的是已有类库-&gt;加proxy-&gt;再加控制平面的路线</li>
@@ -195,19 +190,16 @@
 <li>即将开源</li>
 </ul></li>
 <li>新浪微博Motan Mesh
-
 <ul>
 <li>使用Golang编写</li>
 <li>全新实现</li>
 </ul></li>
 <li>腾讯Tencent Service Mesh
-
 <ul>
 <li>数据平面使用Envoy</li>
 <li>控制平面基于Istio进行定制和扩展，解耦k8s</li>
 </ul></li>
 <li>UCloud Service Mesh
-
 <ul>
 <li>轻量级实践,从Istio里剥离Pilot和Envoy</li>
 <li>去掉Mixer和Auth</li>

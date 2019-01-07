@@ -48,7 +48,7 @@
 
         <ul class="right" id="search-wrap">
           <li>
-<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+<form target="_blank" onsubmit="return before_search();" action="https://google.com/search" method="get">
     <input type="hidden" id="search_q" name="q" value="" />
     <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
 </form>
@@ -130,12 +130,10 @@
 
 <ul>
 <li>RestTemplate
-
 <ul>
 <li>使用Rest方式调用其它服务</li>
 </ul></li>
 <li>Feign
-
 <ul>
 <li>声明式REST客户端</li>
 <li>采用接口+注解的方式，即定义一个Interface，然后在上面加上注解</li>
@@ -166,13 +164,11 @@
 <li>ServerList，获取所有的可用服务</li>
 <li>ServerListFilter：过滤到一部分地址</li>
 <li><p>IRule：选择一个实例</p>
-
 <ul>
 <li>在application.yml里配置选择策略，如：选择随机策略</li>
 </ul>
-
-<pre><code>ORDER:
-    ribbon:
+<pre><code class="language-text">ORDER:
+    ribbon:<br/>
         NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
 </code></pre></li>
 </ul>
@@ -181,7 +177,7 @@
 
 <p>1.增加包依赖</p>
 
-<pre><code>        &lt;dependency&gt;
+<pre><code class="language-text">        &lt;dependency&gt;
             &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
             &lt;artifactId&gt;spring-cloud-starter-feign&lt;/artifactId&gt;
         &lt;/dependency&gt;
@@ -307,31 +303,29 @@
 <ul>
 <li>EurekaApplication.java需要加入注解<code>@EnableEurekaServer</code></li>
 <li><p>配置application.yml</p>
-
-<pre><code>    eureka:
-        client:
-            service-url:
-            defaultZone: http://localhost:8761/eureka
-            register-with-eureka: false //关闭自己做为客户端注册
-        server:
-            enable-self-preservation: false //关闭客户端检测保护
-    spring:
-        application:
-            name: eureka
-    server:
-        port: 8761
+<pre><code class="language-text">    eureka:
+        client:<br/>
+            service-url:<br/>
+            defaultZone: http://localhost:8761/eureka<br/>
+            register-with-eureka: false //关闭自己做为客户端注册<br/>
+        server:<br/>
+            enable-self-preservation: false //关闭客户端检测保护<br/>
+    spring:<br/>
+        application:<br/>
+            name: eureka<br/>
+    server:<br/>
+        port: 8761<br/>
     ```
 </code></pre></li>
 </ul>
 
 <ul>
 <li><p>将eureka放入后台运行</p>
-
-<pre><code>```
-//在命令行打包
-$ mvn clean package
-//放入后台执行
-$ nohup java -jar target/eureka-0.0.1-SNAPSHOT.jar &gt; /dev/null 2&gt;&amp;1 &amp;
+<pre><code class="language-text">```
+//在命令行打包<br/>
+$ mvn clean package<br/>
+//放入后台执行<br/>
+$ nohup java -jar target/eureka-0.0.1-SNAPSHOT.jar &gt; /dev/null 2&gt;&amp;1 &amp;<br/>
 ```
 </code></pre></li>
 </ul>
@@ -340,33 +334,29 @@ $ nohup java -jar target/eureka-0.0.1-SNAPSHOT.jar &gt; /dev/null 2&gt;&amp;1 &a
 
 <ul>
 <li><p>引入依赖，靠idea不靠谱，2.0.0正式版以上，会漏了最后一个，让我调测半天</p>
-
-<pre><code>    &lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
-    &lt;/dependency&gt;
-
-    &lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
-        &lt;scope&gt;test&lt;/scope&gt;
-    &lt;/dependency&gt;
-
-    &lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+<pre><code class="language-text">    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;<br/>
+        &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;<br/>
+    &lt;/dependency&gt;<br/>
+    &lt;dependency&gt;<br/>
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;<br/>
+        &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;<br/>
+        &lt;scope&gt;test&lt;/scope&gt;<br/>
+    &lt;/dependency&gt;<br/>
+    &lt;dependency&gt;<br/>
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;<br/>
+        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;<br/>
     &lt;/dependency&gt;
 </code></pre></li>
 <li><p>application.yml里配上注册中心地址</p>
-
-<pre><code>eureka:
-    client:
-        serviceUrl:
-        defaultZone: http://127.0.0.1:8761/eureka/
-  instance:
-    hostname: clientName //设置注册记录里的Status列里的链接地址
-spring:
-    application:
+<pre><code class="language-text">eureka:
+    client:<br/>
+        serviceUrl:<br/>
+        defaultZone: http://127.0.0.1:8761/eureka/<br/>
+  instance:<br/>
+    hostname: clientName //设置注册记录里的Status列里的链接地址<br/>
+spring:<br/>
+    application:<br/>
         name: customer-service
 </code></pre></li>
 <li><p>在启动的主类加<code>@EnableDiscoveryClient</code>注解</p></li>
@@ -377,13 +367,11 @@ spring:
 <ul>
 <li>生态环境3台起步为佳</li>
 <li>Eureka Server端配置
-
 <ul>
 <li>多个Server各自配置VM启动参数<code>-Dserver.port=xxxx</code></li>
 <li>各Server的application.yml文件中，<code>eureka.client.serverUrl.defaultZone</code>参数配置为其它Server的注册地址，超过两个Server以上Eureka集群时，配置两个地址，用逗号分隔。很多Server的集群中，这两个地址的策略可以定为两两组合，每个Server实例配置的地址互相错开，不用完全一样</li>
 </ul></li>
 <li>Eureka Client端的配置
-
 <ul>
 <li>application.yml文件中，配置<code>eureka.client.serverUrl.defaultZone</code>参数配置为多个Server注册地址，中间用逗号分隔</li>
 </ul></li>
@@ -394,7 +382,6 @@ spring:
 <ul>
 <li>Eureka提供REST服务调用方式</li>
 <li>其它语言只需求根据REST API实现自己的客户端即可
-
 <ul>
 <li>Node.js有Eureka-js-client</li>
 </ul></li>
@@ -434,13 +421,13 @@ spring:
                         
                         	<h2 id="toc_0">查找端口占用</h2>
 
-<pre><code>$ lsof -i:8080 //查询该端口8080的进程id
+<pre><code class="language-text">$ lsof -i:8080 //查询该端口8080的进程id
 $ kill 12345   //杀掉该id进程
 </code></pre>
 
 <h2 id="toc_1">查看进程状态</h2>
 
-<pre><code>$ ps -ef | grep eureka
+<pre><code class="language-text">$ ps -ef | grep eureka
 </code></pre>
 
                         
@@ -479,7 +466,6 @@ $ kill 12345   //杀掉该id进程
 <ul>
 <li>Drools规则文件，drl</li>
 <li>解释执行规则，API
-
 <ul>
 <li>规则编译</li>
 <li>规则收集</li>
@@ -506,7 +492,6 @@ $ kill 12345   //杀掉该id进程
 <li>KIE=knowledge is everything</li>
 <li>KIE包括Drools、OptaPlanner、UberFire、jBPM四个项目，KIE本身是四个项目公共的一些接口定义，具体实现在各项目中</li>
 <li>KIE的生命周期：
-
 <ul>
 <li>编写：编写规则文件，如：drl、bpmn2、决策表、实体类等</li>
 <li>构建：变成一个可发布部署的文件，通常是jar</li>

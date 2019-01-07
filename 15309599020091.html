@@ -48,7 +48,7 @@
 
         <ul class="right" id="search-wrap">
           <li>
-<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+<form target="_blank" onsubmit="return before_search();" action="https://google.com/search" method="get">
     <input type="hidden" id="search_q" name="q" value="" />
     <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
 </form>
@@ -143,12 +143,10 @@
 
 <ul>
 <li>RestTemplate
-
 <ul>
 <li>使用Rest方式调用其它服务</li>
 </ul></li>
 <li>Feign
-
 <ul>
 <li>声明式REST客户端</li>
 <li>采用接口+注解的方式，即定义一个Interface，然后在上面加上注解</li>
@@ -179,13 +177,11 @@
 <li>ServerList，获取所有的可用服务</li>
 <li>ServerListFilter：过滤到一部分地址</li>
 <li><p>IRule：选择一个实例</p>
-
 <ul>
 <li>在application.yml里配置选择策略，如：选择随机策略</li>
 </ul>
-
-<pre><code>ORDER:
-    ribbon:
+<pre><code class="language-text">ORDER:
+    ribbon:<br/>
         NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
 </code></pre></li>
 </ul>
@@ -194,7 +190,7 @@
 
 <p>1.增加包依赖</p>
 
-<pre><code>        &lt;dependency&gt;
+<pre><code class="language-text">        &lt;dependency&gt;
             &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
             &lt;artifactId&gt;spring-cloud-starter-feign&lt;/artifactId&gt;
         &lt;/dependency&gt;

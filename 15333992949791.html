@@ -48,7 +48,7 @@
 
         <ul class="right" id="search-wrap">
           <li>
-<form target="_blank" onsubmit="return before_search();" action="http://google.com/search" method="get">
+<form target="_blank" onsubmit="return before_search();" action="https://google.com/search" method="get">
     <input type="hidden" id="search_q" name="q" value="" />
     <input tabindex="1" type="search" id="search_input"  placeholder="Search"/>
 </form>
@@ -138,7 +138,7 @@
 <li>pom里引入</li>
 </ul>
 
-<pre><code>&lt;dependency&gt;
+<pre><code class="language-text">&lt;dependency&gt;
     &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
     &lt;artifactId&gt;spring-cloud-starter-bus-amqp&lt;/artifactId&gt;
 &lt;/dependency&gt;
@@ -150,7 +150,7 @@
 <li><p>自动创建，Exchange和Queue绑定。这种情况通常用在有多个不能的消息topic时，不同的进程消费不同的topic</p></li>
 </ol>
 
-<pre><code>@RabbitListener(bindings = @QueueBinding(
+<pre><code class="language-text">@RabbitListener(bindings = @QueueBinding(
         value = @Queue(&quot;myQueue&quot;),
         key = &quot;myKey&quot;,
         exchange = @Exchange(&quot;myExchange&quot;)
@@ -164,7 +164,7 @@
 <li><p>pom.xml里引入</p></li>
 </ul>
 
-<pre><code>        &lt;dependency&gt;
+<pre><code class="language-text">        &lt;dependency&gt;
             &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
             &lt;artifactId&gt;spring-cloud-starter-bus-amqp&lt;/artifactId&gt;
         &lt;/dependency&gt;
@@ -179,7 +179,7 @@
 <li>设置消息队列名及消息格式，便于定位问题时，直接在rabbitMQ控制台可以直接看到消息内容，在bootstrap.yml里增加配置项如下：</li>
 </ul>
 
-<pre><code>  cloud:
+<pre><code class="language-text">  cloud:
     stream:
       bindings:
         myMessage:
