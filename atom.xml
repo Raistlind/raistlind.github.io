@@ -4,13 +4,56 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2019-01-09T20:41:11+08:00</updated>
+  <updated>2019-01-09T22:05:15+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
     
   </author>
   <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[机器学习简介]]></title>
+    <link href="http://www.krynn.cn/15470407755909.html"/>
+    <updated>2019-01-09T21:32:55+08:00</updated>
+    <id>http://www.krynn.cn/15470407755909.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">机器学习应用举例</h2>
+
+<ul>
+<li>分类问题：图像识别、垃圾邮件识别</li>
+<li>回归问题：股价预测、房价预测</li>
+<li>排序问题：点击率预估、推荐</li>
+<li>生成问题：图像生成、图像风格转换、图像文字描述生成</li>
+</ul>
+
+<h2 id="toc_1">机器学习应用流程</h2>
+
+<p>训练数据-》定义问题-》选择算法-》模型-》线上服务-》训练数据</p>
+
+<h2 id="toc_2">机器学习岗位要做什么</h2>
+
+<ul>
+<li>数据处理（采集+去噪）</li>
+<li>模型训练（特征+模型）</li>
+<li>模型评估与优化（MSE、F1-score、AUC+调参）</li>
+<li>模型应用（A/B测试）</li>
+</ul>
+
+<h2 id="toc_3">深度学习算法集合</h2>
+
+<ul>
+<li>卷积神经网络</li>
+<li>循环神经网络</li>
+<li>自动编码器</li>
+<li>稀疏编码</li>
+<li>深度信念网络</li>
+<li>限制玻尔兹曼机</li>
+<li>深度学习+强化学习=深度强化学习</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[微信小程序学习笔记-1.]]></title>

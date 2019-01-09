@@ -90,6 +90,8 @@
             <li><a href="ServiceMesh.html">ServiceMesh</a></li>
         
             <li><a href="%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F.html">微信小程序</a></li>
+        
+            <li><a href="AI.html">AI</a></li>
          
 
       </ul>
@@ -111,6 +113,71 @@
 	<div class="large-8 medium-8 columns">
 		<div class="markdown-body home-categories">
 		
+			<div class="article">
+                <a class="clearlink" href="15470407755909.html">
+                
+                  <h1>机器学习简介</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">机器学习应用举例</h2>
+
+<ul>
+<li>分类问题：图像识别、垃圾邮件识别</li>
+<li>回归问题：股价预测、房价预测</li>
+<li>排序问题：点击率预估、推荐</li>
+<li>生成问题：图像生成、图像风格转换、图像文字描述生成</li>
+</ul>
+
+<h2 id="toc_1">机器学习应用流程</h2>
+
+<p>训练数据-》定义问题-》选择算法-》模型-》线上服务-》训练数据</p>
+
+<h2 id="toc_2">机器学习岗位要做什么</h2>
+
+<ul>
+<li>数据处理（采集+去噪）</li>
+<li>模型训练（特征+模型）</li>
+<li>模型评估与优化（MSE、F1-score、AUC+调参）</li>
+<li>模型应用（A/B测试）</li>
+</ul>
+
+<h2 id="toc_3">深度学习算法集合</h2>
+
+<ul>
+<li>卷积神经网络</li>
+<li>循环神经网络</li>
+<li>自动编码器</li>
+<li>稀疏编码</li>
+<li>深度信念网络</li>
+<li>限制玻尔兹曼机</li>
+<li>深度学习+强化学习=深度强化学习</li>
+</ul>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2019/1/9</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='AI.html'>AI</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
 			<div class="article">
                 <a class="clearlink" href="15399993810473.html">
                 
@@ -489,183 +556,6 @@ public class CorsConfig {
                 </div>
               </div><!-- article -->
         
-			<div class="article">
-                <a class="clearlink" href="15388380400514.html">
-                
-                  <h1>Spring Cloud学习笔记-7.服务网关（1）</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h2 id="toc_0">服务网关重要关注点</h2>
-
-<ul>
-<li>高可用性</li>
-<li>并发性能</li>
-<li>安全性</li>
-<li>扩展性</li>
-</ul>
-
-<h2 id="toc_1">常见网关方案</h2>
-
-<ul>
-<li>Nginx + Lua：性能极高，高并发，扩展性好</li>
-<li>Kong：基于Nginx + Lua，提高易用性，但是是商业收费方案</li>
-<li>Tyk：支持配额和速度限制，支持认证、数据分析、多租户、多组织，支持全Restful API。用go开发，性能和扩展性不错</li>
-<li>Spring Cloud Zuul：以Java技术栈为主的话，提供了认证、鉴权、限流、动态路由、监控、弹性、安全、负载均衡、协作单点压测、静态响应等边缘服务的框架。一代的Zuul在性能上不具备优势，第二代据说有很大提升，与Spring Cloud配合好，路由+过滤器为主要功能，核心是一系统的过滤器</li>
-<li>各种方案可以根据项目实际情况分层分段混搭</li>
-</ul>
-
-<h2 id="toc_2">Zuul的四种过滤器API</h2>
-
-<ul>
-<li>前置（Pre）：常用于限流、鉴权、参数校验、请求转发</li>
-<li>路由（Route）</li>
-<li>后置（Post）：常用于统计、日志</li>
-<li>错误（Error）</li>
-</ul>
-
-<h2 id="toc_3">启动Zuul</h2>
-
-<ul>
-<li>引入工程依赖</li>
-</ul>
-
-<pre><code class="language-text">        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-netflix-zuul&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-</code></pre>
-
-<ul>
-<li>bootstrap.yml里配置环境</li>
-</ul>
-
-<pre><code class="language-text">spring:
-  application:
-    name: api-gateway
-  cloud:
-    config:
-      discovery:
-        enabled: true
-        service-id: CONFIG
-      profile: dev
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-</code></pre>
-
-<ul>
-<li>主类上启动<code>@EnableZuulProxy</code>注释</li>
-</ul>
-
-<h2 id="toc_4">路由管理</h2>
-
-<ul>
-<li>在bootstrap.yml文件里增加路由</li>
-</ul>
-
-<pre><code class="language-text">zuul:
-  routes:
-    myProduct:
-      path: /myProduct/**
-      serviceId: product
-</code></pre>
-
-<p>简单写法</p>
-
-<pre><code class="language-text">      product: /myProduct/**
-</code></pre>
-
-<ul>
-<li>允许查看路由信息，在bootstrap.yml文件里增加如下配置，然后访问：<a href="http://ip:port/application/routes">http://ip:port/application/routes</a></li>
-</ul>
-
-<pre><code class="language-text">management:
-  security:
-    enabled: false
-</code></pre>
-
-<ul>
-<li>排除某些路由</li>
-</ul>
-
-<pre><code class="language-text">  ignored-patterns:
-    - /url1
-    - /**/product/list
-</code></pre>
-
-<ul>
-<li>传递Cookie，将sensitiveHeaders设为空即可</li>
-</ul>
-
-<pre><code class="language-text">zuul:
-  # 增加路由
-  routes:
-    myProduct:
-      path: /myProduct/**
-      serviceId: product
-      # 传递cookie
-      sensitiveHeaders:
-</code></pre>
-
-<pre><code class="language-text">zuul:
-  #全部服务忽略敏感头（全部服务都可以传递cookie）
-  sensitive-headers: 
-</code></pre>
-
-<ul>
-<li>动态路由，请建一个类，刷新路由配置</li>
-</ul>
-
-<pre><code class="language-text">@Component
-public class ZuulConfig {
-
-    @ConfigurationProperties(&quot;zuul&quot;)
-    @RefreshScope
-    public ZuulProperties zuulProperties() {
-        return new ZuulProperties();
-    }
-}
-</code></pre>
-
-<h1 id="toc_5">zuul高可用</h1>
-
-<ul>
-<li>多个zuul节点注册到Eureka Server</li>
-<li>Nginx和zuul混搭</li>
-</ul>
-
-<h1 id="toc_6">解决Zuul刚启动第一次访问页面出错的问题</h1>
-
-<ul>
-<li>可以配置Hystrix超时配置</li>
-</ul>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2018/10/6</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
               
 
 
@@ -731,6 +621,8 @@ public class ZuulConfig {
             <a href="ServiceMesh.html"><strong>ServiceMesh</strong></a>
         
             <a href="%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F.html"><strong>微信小程序</strong></a>
+        
+            <a href="AI.html"><strong>AI</strong></a>
          
         </p>
 
@@ -745,6 +637,12 @@ public class ZuulConfig {
                 <div class="side-content">
                 <ul class="posts-list">
 	      
+		      
+			      <li class="post">
+			        <a href="15470407755909.html">机器学习简介</a>
+			      </li>
+		     
+		  
 		      
 			      <li class="post">
 			        <a href="15399993810473.html">微信小程序学习笔记-1.</a>
@@ -770,10 +668,6 @@ public class ZuulConfig {
 		     
 		  
 		      
-			      <li class="post">
-			        <a href="15388380400514.html">Spring Cloud学习笔记-7.服务网关（1）</a>
-			      </li>
-		     
 		  
 		      
 		  
