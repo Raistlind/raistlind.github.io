@@ -4,13 +4,109 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2019-01-09T22:05:15+08:00</updated>
+  <updated>2019-01-12T22:40:00+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
     
   </author>
   <generator uri="http://www.mweb.im/">MWeb</generator>
+  
+  <entry>
+    <title type="html"><![CDATA[Tensorflow基础]]></title>
+    <link href="http://www.krynn.cn/15471344730488.html"/>
+    <updated>2019-01-10T23:34:33+08:00</updated>
+    <id>http://www.krynn.cn/15471344730488.html</id>
+    <content type="html"><![CDATA[
+<ul>
+<li>Google Brain的第二代机器学习框架</li>
+<li>开源社区活跃</li>
+<li>可扩展性好：在分布式下支持得非常好，一机多卡，多机多卡</li>
+<li>API健全，对用户友好<br/>
+## 计算图模型</li>
+<li>命令式编程</li>
+</ul>
+
+<pre><code class="language-text">&gt;&gt;&gt; x=2
+&gt;&gt;&gt; y=3
+&gt;&gt;&gt; b=1
+&gt;&gt;&gt; x * y + b
+&gt;&gt;&gt; 7
+</code></pre>
+
+<ul>
+<li>声明式编程</li>
+</ul>
+
+<pre><code class="language-text">&gt;&gt;&gt; import theano.tensor as T
+&gt;&gt;&gt; from theano import function
+&gt;&gt;&gt; x = T.dscalar(&#39;x&#39;)
+&gt;&gt;&gt; y = T.dscalar(&#39;y&#39;)
+&gt;&gt;&gt; b = T.constant(1)
+&gt;&gt;&gt; z = x * y + b
+&gt;&gt;&gt; f = function([x, y], z)
+&gt;&gt;&gt; f(2, 3)
+&gt;&gt;&gt; array(7.0)
+</code></pre>
+
+<ul>
+<li>命令式编程与声明式编程比较</li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: center">命令式编程</th>
+<th style="text-align: center">声明式编程</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>如何执行</td>
+<td style="text-align: center">立即执行</td>
+<td style="text-align: center">先构建计算图，再输入数值进行计算</td>
+</tr>
+<tr>
+<td>优点</td>
+<td style="text-align: center">容易理解、灵活、精准控制、易于调试</td>
+<td style="text-align: center">先拿到计算图，便于优化。可视化计算图。方便存取</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td style="text-align: center">提供整体优化很难。实现统一的辅助函数很难</td>
+<td style="text-align: center">很多语言特性用不上，不易于调试；监视中间结果不简单</td>
+</tr>
+</tbody>
+</table>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[神经网络]]></title>
+    <link href="http://www.krynn.cn/15470430227136.html"/>
+    <updated>2019-01-09T22:10:22+08:00</updated>
+    <id>http://www.krynn.cn/15470430227136.html</id>
+    <content type="html"><![CDATA[
+<h2 id="toc_0">神经元组成神经网络</h2>
+
+<h3 id="toc_1">神经元分类</h3>
+
+<ul>
+<li>神经元：是最小的神经网络</li>
+<li>神经元单输出：有多个输入一个输出。W权重，x输入，h激活函数，b偏移，可以形成二分类逻辑斯蒂回归模型</li>
+<li>神经元多输出：W从向量扩展为矩阵，输出W*x则变成向量，多输出神经元-》softmax-》多分类逻辑斯蒂回归模型</li>
+<li>目标函数：也叫损失函数<br/>
+## 逻辑回归模型算法<br/>
+## 神经网络训练</li>
+<li>下山算法：找到方向-》走一步</li>
+<li>梯度下降算法</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[机器学习简介]]></title>

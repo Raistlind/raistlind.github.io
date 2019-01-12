@@ -114,6 +114,169 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
+                <a class="clearlink" href="15309573607293.html">
+                
+                  <h1>Spring Cloud学习笔记-2.Eureka</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">Eureka Server 注册中心</h2>
+
+<ul>
+<li>EurekaApplication.java需要加入注解<code>@EnableEurekaServer</code></li>
+<li><p>配置application.yml</p>
+<pre><code class="language-text">    eureka:
+        client:<br/>
+            service-url:<br/>
+            defaultZone: http://localhost:8761/eureka<br/>
+            register-with-eureka: false //关闭自己做为客户端注册<br/>
+        server:<br/>
+            enable-self-preservation: false //关闭客户端检测保护<br/>
+    spring:<br/>
+        application:<br/>
+            name: eureka<br/>
+    server:<br/>
+        port: 8761<br/>
+    ```
+</code></pre></li>
+</ul>
+
+<ul>
+<li><p>将eureka放入后台运行</p>
+<pre><code class="language-text">```
+//在命令行打包<br/>
+$ mvn clean package<br/>
+//放入后台执行<br/>
+$ nohup java -jar target/eureka-0.0.1-SNAPSHOT.jar &gt; /dev/null 2&gt;&amp;1 &amp;<br/>
+```
+</code></pre></li>
+</ul>
+
+<h2 id="toc_1">Eureka Client 进行服务注册</h2>
+
+<ul>
+<li><p>引入依赖，靠idea不靠谱，2.0.0正式版以上，会漏了最后一个，让我调测半天</p>
+<pre><code class="language-text">    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;<br/>
+        &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;<br/>
+    &lt;/dependency&gt;<br/>
+    &lt;dependency&gt;<br/>
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;<br/>
+        &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;<br/>
+        &lt;scope&gt;test&lt;/scope&gt;<br/>
+    &lt;/dependency&gt;<br/>
+    &lt;dependency&gt;<br/>
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;<br/>
+        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;<br/>
+    &lt;/dependency&gt;
+</code></pre></li>
+<li><p>application.yml里配上注册中心地址</p>
+<pre><code class="language-text">eureka:
+    client:<br/>
+        serviceUrl:<br/>
+        defaultZone: http://127.0.0.1:8761/eureka/<br/>
+  instance:<br/>
+    hostname: clientName //设置注册记录里的Status列里的链接地址<br/>
+spring:<br/>
+    application:<br/>
+        name: customer-service
+</code></pre></li>
+<li><p>在启动的主类加<code>@EnableDiscoveryClient</code>注解</p></li>
+</ul>
+
+<h2 id="toc_2">多Eureka集群的配置</h2>
+
+<ul>
+<li>生态环境3台起步为佳</li>
+<li>Eureka Server端配置
+<ul>
+<li>多个Server各自配置VM启动参数<code>-Dserver.port=xxxx</code></li>
+<li>各Server的application.yml文件中，<code>eureka.client.serverUrl.defaultZone</code>参数配置为其它Server的注册地址，超过两个Server以上Eureka集群时，配置两个地址，用逗号分隔。很多Server的集群中，这两个地址的策略可以定为两两组合，每个Server实例配置的地址互相错开，不用完全一样</li>
+</ul></li>
+<li>Eureka Client端的配置
+<ul>
+<li>application.yml文件中，配置<code>eureka.client.serverUrl.defaultZone</code>参数配置为多个Server注册地址，中间用逗号分隔</li>
+</ul></li>
+</ul>
+
+<h2 id="toc_3">异构系统注册</h2>
+
+<ul>
+<li>Eureka提供REST服务调用方式</li>
+<li>其它语言只需求根据REST API实现自己的客户端即可
+<ul>
+<li>Node.js有Eureka-js-client</li>
+</ul></li>
+<li>如果不会写客户端，也可以引入服务端注册的方式，设置服务获取代理，如:Nginx、ZooKepper等</li>
+</ul>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2018/7/7</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15307181630698.html">
+                
+                  <h1>Mac常用命令</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">查找端口占用</h2>
+
+<pre><code class="language-text">$ lsof -i:8080 //查询该端口8080的进程id
+$ kill 12345   //杀掉该id进程
+</code></pre>
+
+<h2 id="toc_1">查看进程状态</h2>
+
+<pre><code class="language-text">$ ps -ef | grep eureka
+</code></pre>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2018/7/4</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='MacOS.html'>MacOS</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
                 <a class="clearlink" href="15301972643935.html">
                 
                   <h1>Drools简介</h1>
@@ -457,6 +620,18 @@
 	      
 		      
 			      <li class="post">
+			        <a href="15471344730488.html">Tensorflow基础</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15470430227136.html">神经网络</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15470407755909.html">机器学习简介</a>
 			      </li>
 		     
@@ -474,16 +649,8 @@
 		     
 		  
 		      
-			      <li class="post">
-			        <a href="15395135852631.html">Spring Cloud学习笔记-8.服务容错和Hystrix</a>
-			      </li>
-		     
 		  
 		      
-			      <li class="post">
-			        <a href="15389222292649.html">Spring Cloud学习笔记-7.服务网关（2）</a>
-			      </li>
-		     
 		  
 		      
 		  

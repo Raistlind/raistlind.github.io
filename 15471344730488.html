@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
     
-  Spring Cloud学习笔记-8.服务容错和Hystrix - The 10th Art
+  Tensorflow基础 - The 10th Art
   
   </title>
   
@@ -114,14 +114,14 @@
       <div class="markdown-body article-wrap">
        <div class="article">
           
-          <h1>Spring Cloud学习笔记-8.服务容错和Hystrix</h1>
+          <h1>Tensorflow基础</h1>
      
         <div class="read-more clearfix">
-          <span class="date">2018/10/14</span>
+          <span class="date">2019/1/10</span>
 
           <span>posted in&nbsp;</span> 
           
-              <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
+              <span class="posted-in"><a href='AI.html'>AI</a></span>
            
          
           <span class="comments">
@@ -134,101 +134,68 @@
       </div><!-- article -->
 
       <div class="article-content">
-      <h2 id="toc_0">服务降级</h2>
-
-<ul>
-<li>优先核心业务，非核心业务不可用或弱可用，如：“唉哟，网络开小差了”页面</li>
-<li>通过HystrixCommand注解指定</li>
-<li><p>fallbackMethod（回退函数）中具体实现降低逻辑</p></li>
-<li><p>使用方法</p>
-<ul>
-<li>pom中引入依赖</li>
-</ul>
-<pre><code class="language-text">        &lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;<br/>
-        &lt;artifactId&gt;spring-cloud-starter-hystrix&lt;/artifactId&gt;<br/>
-    &lt;/dependency&gt;
-</code></pre>
-<ul>
-<li>在主类上添加注解<code>@EnableCircuitBreaker)</code>(或者@SpringCloudApplication = @SpringBootApplication + @EnableDiscoveryClient + @EnableCircuitBreaker)</li>
-</ul>
-<pre><code class="language-text">//@SpringBootApplication
-//@EnableDiscoveryClient<br/>
-//@EnableCircuitBreaker<br/>
-@SpringCloudApplication
-</code></pre>
-<ul>
-<li>然后在对应的Controller类的方法上增加注解，如：@HystrixCommand(fallbackMethod = &quot;fallback&quot;)，然后实现应用的方法，如：fallback()</li>
-<li>除了被调用服务失败可以触发降级外，自己主动抛出异常同样可以触发降级</li>
-<li>可能通过在类前添加注解@DefaultProperties(defaultFallback = &quot;defaultFallback&quot;)，然后实现对应方法就可以让本类内所有方法都使用该降级处理。各方法的@HystrixCommand注解后不需要添加fallbackMethod参数</li>
-<li>@HystrixCommand有很多参数可以设置，用来调降级条件，如：设置调用超时时间为3秒配置如下：</li>
-</ul>
-<pre><code class="language-text">@HystrixCommand(commandProperties = {
-        @HystrixProperty(name = &quot;execution.isolation.thread.timeoutInMilliseconds&quot;, value = &quot;3000&quot;)<br/>
-})
-</code></pre></li>
+      <ul>
+<li>Google Brain的第二代机器学习框架</li>
+<li>开源社区活跃</li>
+<li>可扩展性好：在分布式下支持得非常好，一机多卡，多机多卡</li>
+<li>API健全，对用户友好<br/>
+## 计算图模型</li>
+<li>命令式编程</li>
 </ul>
 
-<h2 id="toc_1">依赖隔离</h2>
-
-<ul>
-<li>Hystrix提供的是线程池隔离，每个HystrixCommand里的方法都会自动实现隔离，对开发者来说不用关心</li>
-</ul>
-
-<h2 id="toc_2">服务熔断</h2>
-
-<ul>
-<li>主要使用Circuit Breaker断路器参数设置熔断</li>
-<li>短暂的故障通过重试来解决，长时间的故障通过断路器解决</li>
-</ul>
-
-<pre><code class="language-text">    //设置断路器
-    @HystrixCommand(commandProperties = {
-            @HystrixProperty(name = &quot;circuitBreaker.enabled&quot;, value = &quot;true&quot;),
-            //滚动时间窗口内，断路器最小请求数
-            @HystrixProperty(name = &quot;circuitBreaker.requestVolumeThreshold&quot;, value = &quot;10&quot;),
-            //降级逻辑作用时间窗口，到时间后，转换断路器状态从Open到Half-open
-            @HystrixProperty(name = &quot;circuitBreaker.sleepWindowInMilliseconds&quot;, value = &quot;10000&quot;),
-            //触发断路器的错误率，达到条件时，转换断路器状态从Close到Open
-            @HystrixProperty(name = &quot;circuitBreaker.errorThresholdPercentage&quot;, value = &quot;60&quot;),
-    })
+<pre><code class="language-text">&gt;&gt;&gt; x=2
+&gt;&gt;&gt; y=3
+&gt;&gt;&gt; b=1
+&gt;&gt;&gt; x * y + b
+&gt;&gt;&gt; 7
 </code></pre>
 
 <ul>
-<li>以上配置也可以通过bootstrap.yml配置文件设置，如：3秒超时的配法，但还是需要在方法里加上@HystrixCommand注解。同时，为特定方法设置特殊阈值，可以将该方法名写到配置中指定，如：getProductInfoList</li>
+<li>声明式编程</li>
 </ul>
 
-<pre><code class="language-text">hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 1000
-    getProductInfoList:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 3000
-</code></pre>
-
-<h2 id="toc_3">监控（Hystrix Dashboard）</h2>
-
-<ul>
-<li>Hystrix自带dashboard</li>
-<li>pom引入dashboard</li>
-</ul>
-
-<pre><code class="language-text">        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-hystrix-dashboard&lt;/artifactId&gt;
-        &lt;/dependency&gt;
+<pre><code class="language-text">&gt;&gt;&gt; import theano.tensor as T
+&gt;&gt;&gt; from theano import function
+&gt;&gt;&gt; x = T.dscalar(&#39;x&#39;)
+&gt;&gt;&gt; y = T.dscalar(&#39;y&#39;)
+&gt;&gt;&gt; b = T.constant(1)
+&gt;&gt;&gt; z = x * y + b
+&gt;&gt;&gt; f = function([x, y], z)
+&gt;&gt;&gt; f(2, 3)
+&gt;&gt;&gt; array(7.0)
 </code></pre>
 
 <ul>
-<li>主类上加上注解@EnableHystrixDashboard启动</li>
-<li>访问<a href="http://localhost:8080/hystrix%E5%90%8E%EF%BC%8C%E8%BE%93%E5%85%A5%E5%BA%94%E7%94%A8%E5%9C%B0%E5%9D%80">http://localhost:8080/hystrix后，输入应用地址</a></li>
+<li>命令式编程与声明式编程比较</li>
 </ul>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: center">命令式编程</th>
+<th style="text-align: center">声明式编程</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>如何执行</td>
+<td style="text-align: center">立即执行</td>
+<td style="text-align: center">先构建计算图，再输入数值进行计算</td>
+</tr>
+<tr>
+<td>优点</td>
+<td style="text-align: center">容易理解、灵活、精准控制、易于调试</td>
+<td style="text-align: center">先拿到计算图，便于优化。可视化计算图。方便存取</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td style="text-align: center">提供整体优化很难。实现统一的辅助函数很难</td>
+<td style="text-align: center">很多语言特性用不上，不易于调试；监视中间结果不简单</td>
+</tr>
+</tbody>
+</table>
 
 
     
@@ -239,16 +206,13 @@
         <div class="large-6 columns">
         <p class="text-left" style="padding:15px 0px;">
       
-          <a href="15395270781372.html" 
-          title="Previous Post: Spring Cloud学习笔记-9.服务追踪">&laquo; Spring Cloud学习笔记-9.服务追踪</a>
-      
         </p>
         </div>
         <div class="large-6 columns">
       <p class="text-right" style="padding:15px 0px;">
       
-          <a  href="15389222292649.html" 
-          title="Next Post: Spring Cloud学习笔记-7.服务网关（2）">Spring Cloud学习笔记-7.服务网关（2） &raquo;</a>
+          <a  href="15470430227136.html" 
+          title="Next Post: 神经网络">神经网络 &raquo;</a>
       
       </p>
         </div>

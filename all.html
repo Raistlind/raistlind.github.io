@@ -114,6 +114,146 @@
 		<div class="markdown-body home-categories">
 		
 			<div class="article">
+                <a class="clearlink" href="15471344730488.html">
+                
+                  <h1>Tensorflow基础</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<ul>
+<li>Google Brain的第二代机器学习框架</li>
+<li>开源社区活跃</li>
+<li>可扩展性好：在分布式下支持得非常好，一机多卡，多机多卡</li>
+<li>API健全，对用户友好<br/>
+## 计算图模型</li>
+<li>命令式编程</li>
+</ul>
+
+<pre><code class="language-text">&gt;&gt;&gt; x=2
+&gt;&gt;&gt; y=3
+&gt;&gt;&gt; b=1
+&gt;&gt;&gt; x * y + b
+&gt;&gt;&gt; 7
+</code></pre>
+
+<ul>
+<li>声明式编程</li>
+</ul>
+
+<pre><code class="language-text">&gt;&gt;&gt; import theano.tensor as T
+&gt;&gt;&gt; from theano import function
+&gt;&gt;&gt; x = T.dscalar(&#39;x&#39;)
+&gt;&gt;&gt; y = T.dscalar(&#39;y&#39;)
+&gt;&gt;&gt; b = T.constant(1)
+&gt;&gt;&gt; z = x * y + b
+&gt;&gt;&gt; f = function([x, y], z)
+&gt;&gt;&gt; f(2, 3)
+&gt;&gt;&gt; array(7.0)
+</code></pre>
+
+<ul>
+<li>命令式编程与声明式编程比较</li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: center">命令式编程</th>
+<th style="text-align: center">声明式编程</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>如何执行</td>
+<td style="text-align: center">立即执行</td>
+<td style="text-align: center">先构建计算图，再输入数值进行计算</td>
+</tr>
+<tr>
+<td>优点</td>
+<td style="text-align: center">容易理解、灵活、精准控制、易于调试</td>
+<td style="text-align: center">先拿到计算图，便于优化。可视化计算图。方便存取</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td style="text-align: center">提供整体优化很难。实现统一的辅助函数很难</td>
+<td style="text-align: center">很多语言特性用不上，不易于调试；监视中间结果不简单</td>
+</tr>
+</tbody>
+</table>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2019/1/10</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='AI.html'>AI</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
+                <a class="clearlink" href="15470430227136.html">
+                
+                  <h1>神经网络</h1>
+                  <div class="a-content">
+                      
+                      <div class="a-content-text">
+                        
+                        	<h2 id="toc_0">神经元组成神经网络</h2>
+
+<h3 id="toc_1">神经元分类</h3>
+
+<ul>
+<li>神经元：是最小的神经网络</li>
+<li>神经元单输出：有多个输入一个输出。W权重，x输入，h激活函数，b偏移，可以形成二分类逻辑斯蒂回归模型</li>
+<li>神经元多输出：W从向量扩展为矩阵，输出W*x则变成向量，多输出神经元-》softmax-》多分类逻辑斯蒂回归模型</li>
+<li>目标函数：也叫损失函数<br/>
+## 逻辑回归模型算法<br/>
+## 神经网络训练</li>
+<li>下山算法：找到方向-》走一步</li>
+<li>梯度下降算法</li>
+</ul>
+
+                        
+                      </div>
+                  </div>
+                </a>
+                <div class="read-more clearfix">
+                  <div class="more-left left">
+                  
+                    <span class="date">2019/1/9</span>
+                    <span>posted in&nbsp;</span> 
+          				  
+          					    <span class="posted-in"><a href='AI.html'>AI</a></span>
+          				   
+                  </div>
+                  <div class="more-right right">
+                  <span class="comments">
+                      
+
+                       
+                  </span>
+                  </div>
+                </div>
+              </div><!-- article -->
+        
+			<div class="article">
                 <a class="clearlink" href="15470407755909.html">
                 
                   <h1>机器学习简介</h1>
@@ -253,309 +393,6 @@
                 </div>
               </div><!-- article -->
         
-			<div class="article">
-                <a class="clearlink" href="15395135852631.html">
-                
-                  <h1>Spring Cloud学习笔记-8.服务容错和Hystrix</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h2 id="toc_0">服务降级</h2>
-
-<ul>
-<li>优先核心业务，非核心业务不可用或弱可用，如：“唉哟，网络开小差了”页面</li>
-<li>通过HystrixCommand注解指定</li>
-<li><p>fallbackMethod（回退函数）中具体实现降低逻辑</p></li>
-<li><p>使用方法</p>
-<ul>
-<li>pom中引入依赖</li>
-</ul>
-<pre><code class="language-text">        &lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;<br/>
-        &lt;artifactId&gt;spring-cloud-starter-hystrix&lt;/artifactId&gt;<br/>
-    &lt;/dependency&gt;
-</code></pre>
-<ul>
-<li>在主类上添加注解<code>@EnableCircuitBreaker)</code>(或者@SpringCloudApplication = @SpringBootApplication + @EnableDiscoveryClient + @EnableCircuitBreaker)</li>
-</ul>
-<pre><code class="language-text">//@SpringBootApplication
-//@EnableDiscoveryClient<br/>
-//@EnableCircuitBreaker<br/>
-@SpringCloudApplication
-</code></pre>
-<ul>
-<li>然后在对应的Controller类的方法上增加注解，如：@HystrixCommand(fallbackMethod = &quot;fallback&quot;)，然后实现应用的方法，如：fallback()</li>
-<li>除了被调用服务失败可以触发降级外，自己主动抛出异常同样可以触发降级</li>
-<li>可能通过在类前添加注解@DefaultProperties(defaultFallback = &quot;defaultFallback&quot;)，然后实现对应方法就可以让本类内所有方法都使用该降级处理。各方法的@HystrixCommand注解后不需要添加fallbackMethod参数</li>
-<li>@HystrixCommand有很多参数可以设置，用来调降级条件，如：设置调用超时时间为3秒配置如下：</li>
-</ul>
-<pre><code class="language-text">@HystrixCommand(commandProperties = {
-        @HystrixProperty(name = &quot;execution.isolation.thread.timeoutInMilliseconds&quot;, value = &quot;3000&quot;)<br/>
-})
-</code></pre></li>
-</ul>
-
-<h2 id="toc_1">依赖隔离</h2>
-
-<ul>
-<li>Hystrix提供的是线程池隔离，每个HystrixCommand里的方法都会自动实现隔离，对开发者来说不用关心</li>
-</ul>
-
-<h2 id="toc_2">服务熔断</h2>
-
-<ul>
-<li>主要使用Circuit Breaker断路器参数设置熔断</li>
-<li>短暂的故障通过重试来解决，长时间的故障通过断路器解决</li>
-</ul>
-
-<pre><code class="language-text">    //设置断路器
-    @HystrixCommand(commandProperties = {
-            @HystrixProperty(name = &quot;circuitBreaker.enabled&quot;, value = &quot;true&quot;),
-            //滚动时间窗口内，断路器最小请求数
-            @HystrixProperty(name = &quot;circuitBreaker.requestVolumeThreshold&quot;, value = &quot;10&quot;),
-            //降级逻辑作用时间窗口，到时间后，转换断路器状态从Open到Half-open
-            @HystrixProperty(name = &quot;circuitBreaker.sleepWindowInMilliseconds&quot;, value = &quot;10000&quot;),
-            //触发断路器的错误率，达到条件时，转换断路器状态从Close到Open
-            @HystrixProperty(name = &quot;circuitBreaker.errorThresholdPercentage&quot;, value = &quot;60&quot;),
-    })
-</code></pre>
-
-<ul>
-<li>以上配置也可以通过bootstrap.yml配置文件设置，如：3秒超时的配法，但还是需要在方法里加上@HystrixCommand注解。同时，为特定方法设置特殊阈值，可以将该方法名写到配置中指定，如：getProductInfoList</li>
-</ul>
-
-<pre><code class="language-text">hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 1000
-    getProductInfoList:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 3000
-</code></pre>
-
-<h2 id="toc_3">监控（Hystrix Dashboard）</h2>
-
-<ul>
-<li>Hystrix自带dashboard</li>
-<li>pom引入dashboard</li>
-</ul>
-
-<pre><code class="language-text">        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-cloud-starter-hystrix-dashboard&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-</code></pre>
-
-<ul>
-<li>主类上加上注解@EnableHystrixDashboard启动</li>
-<li>访问<a href="http://localhost:8080/hystrix%E5%90%8E%EF%BC%8C%E8%BE%93%E5%85%A5%E5%BA%94%E7%94%A8%E5%9C%B0%E5%9D%80">http://localhost:8080/hystrix后，输入应用地址</a></li>
-</ul>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2018/10/14</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
-			<div class="article">
-                <a class="clearlink" href="15389222292649.html">
-                
-                  <h1>Spring Cloud学习笔记-7.服务网关（2）</h1>
-                  <div class="a-content">
-                      
-                      <div class="a-content-text">
-                        
-                        	<h2 id="toc_0">定义Pre Filter</h2>
-
-<ul>
-<li>例子：定义一个检查token请求参数的pre filter</li>
-</ul>
-
-<pre><code class="language-text">@Component
-public class TokenFilter extends ZuulFilter {
-
-
-    @Override
-    public String filterType() {
-        return PRE_TYPE;
-    }
-
-    @Override
-    public int filterOrder() {
-        return PRE_DECORATION_FILTER_ORDER - 1;
-    }
-
-    @Override
-    public boolean shouldFilter() {
-        return true;
-    }
-
-    @Override
-    public Object run() {
-
-        RequestContext requestContext = RequestContext.getCurrentContext();
-        HttpServletRequest request = requestContext.getRequest();
-
-        String token = request.getParameter(&quot;token&quot;);
-        if (StringUtils.isEmpty(token)) {
-            requestContext.setSendZuulResponse(false);
-            requestContext.setResponseStatusCode(HttpStatus.UNAUTHORIZED.value());
-        }
-        return null;
-    }
-}
-</code></pre>
-
-<h2 id="toc_1">定义Post Filter</h2>
-
-<ul>
-<li>定义一个post filter，在response的header里添加参数</li>
-</ul>
-
-<pre><code class="language-text">@Component
-public class AddResponseHeaderFilter extends ZuulFilter {
-    @Override
-    public String filterType() {
-        return POST_TYPE;
-    }
-
-    @Override
-    public int filterOrder() {
-        return SEND_RESPONSE_FILTER_ORDER - 1;
-    }
-
-    @Override
-    public boolean shouldFilter() {
-        return true;
-    }
-
-    @Override
-    public Object run() {
-        RequestContext requestContext = RequestContext.getCurrentContext();
-        HttpServletResponse response = requestContext.getResponse();
-
-        response.setHeader(&quot;X-Foo&quot;, UUID.randomUUID().toString());
-
-        return null;
-    }
-}
-</code></pre>
-
-<h2 id="toc_2">限流</h2>
-
-<ul>
-<li>定义Pre Filter，优先级通常设为最高，在认证鉴权之前</li>
-</ul>
-
-<pre><code class="language-text">@Component
-public class RateLimitFilter extends ZuulFilter {
-
-    // Google的令牌桶算法
-    private static final RateLimiter RATE_LIMITER = RateLimiter.create(100);
-
-    @Override
-    public String filterType() {
-        return PRE_TYPE;
-    }
-
-    @Override
-    public int filterOrder() {
-        return SERVLET_DETECTION_FILTER_ORDER - 1;
-    }
-
-    @Override
-    public boolean shouldFilter() {
-        return true;
-    }
-
-    @Override
-    public Object run() {
-        if (!RATE_LIMITER.tryAcquire()) {
-            throw new RateLimitException();
-        }
-        return null;
-    }
-}
-</code></pre>
-
-<ul>
-<li>参考一个限流开源项目<a href="https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit">https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit</a></li>
-</ul>
-
-<h2 id="toc_3">跨域问题解决</h2>
-
-<ul>
-<li><p>在需要跨域的被调用类上增加<code>@CrossOrigin</code>注解</p></li>
-<li><p>在Zuul里增加CorsFilter过滤器，如：</p></li>
-</ul>
-
-<pre><code class="language-text">@Configuration
-public class CorsConfig {
-
-    @Bean
-    public CorsFilter corsFilter() {
-
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        final CorsConfiguration config = new CorsConfiguration();
-
-        config.setAllowCredentials(true);
-        config.setAllowedOrigins(Arrays.asList(&quot;*&quot;)); //www.abc.com
-        config.setAllowedHeaders(Arrays.asList(&quot;*&quot;));
-        config.setAllowedMethods(Arrays.asList(&quot;*&quot;));
-        config.setMaxAge(300l);
-
-        source.registerCorsConfiguration(&quot;/**&quot;, config);
-        return new CorsFilter(source);
-    }
-}
-</code></pre>
-
-                        
-                      </div>
-                  </div>
-                </a>
-                <div class="read-more clearfix">
-                  <div class="more-left left">
-                  
-                    <span class="date">2018/10/7</span>
-                    <span>posted in&nbsp;</span> 
-          				  
-          					    <span class="posted-in"><a href='Spring%20Cloud.html'>Spring Cloud</a></span>
-          				   
-                  </div>
-                  <div class="more-right right">
-                  <span class="comments">
-                      
-
-                       
-                  </span>
-                  </div>
-                </div>
-              </div><!-- article -->
-        
               
 
 
@@ -639,6 +476,18 @@ public class CorsConfig {
 	      
 		      
 			      <li class="post">
+			        <a href="15471344730488.html">Tensorflow基础</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
+			        <a href="15470430227136.html">神经网络</a>
+			      </li>
+		     
+		  
+		      
+			      <li class="post">
 			        <a href="15470407755909.html">机器学习简介</a>
 			      </li>
 		     
@@ -656,16 +505,8 @@ public class CorsConfig {
 		     
 		  
 		      
-			      <li class="post">
-			        <a href="15395135852631.html">Spring Cloud学习笔记-8.服务容错和Hystrix</a>
-			      </li>
-		     
 		  
 		      
-			      <li class="post">
-			        <a href="15389222292649.html">Spring Cloud学习笔记-7.服务网关（2）</a>
-			      </li>
-		     
 		  
 		      
 		  
