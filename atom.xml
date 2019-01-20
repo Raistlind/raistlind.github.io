@@ -4,7 +4,7 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2019-01-20T21:08:17+08:00</updated>
+  <updated>2019-01-20T22:09:00+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -103,6 +103,9 @@
 找了好久答案，终于发现一个issues说这个问题：<a href="https://github.com/jupyterlab/jupyterlab/issues/5345%E3%80%82">https://github.com/jupyterlab/jupyterlab/issues/5345。</a></p>
 
 <p>按照描述在终端里执行<code>$LANG=zn jupyter-notebook</code>就可以启动正常。</p>
+
+<p>ipynb文件转py文件的办法：<br/>
+<code>jupyter nbconvert --to script demo.ipynb</code></p>
 
 <h3 id="toc_5">删除Anaconda</h3>
 
