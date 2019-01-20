@@ -4,7 +4,7 @@
   <title><![CDATA[The 10th Art]]></title>
   <link href="http://www.krynn.cn/atom.xml" rel="self"/>
   <link href="http://www.krynn.cn/"/>
-  <updated>2019-01-19T21:19:40+08:00</updated>
+  <updated>2019-01-20T14:19:37+08:00</updated>
   <id>http://www.krynn.cn/</id>
   <author>
     <name><![CDATA[]]></name>
@@ -82,6 +82,47 @@
 </tr>
 </tbody>
 </table>
+
+<h2 id="toc_1">安装Tensorflow</h2>
+
+<h3 id="toc_2">安装Anaconda环境（可选）</h3>
+
+<p>Anaconda官方主页：<a href="https://www.anaconda.com">https://www.anaconda.com</a><br/>
+下载最新的即可，虚环境后续可以随便建，不用纠结版本问题。</p>
+
+<h3 id="toc_3">安装Tensorflow</h3>
+
+<p>在Anaconda-Navigator中，选择需要安装的虚拟环境，然后在环境中选择Not installed，搜索Tensorflow，安装好即可。<br/>
+虚拟环境需要激活。命令：<code>$source VirtualEnvDir/bin/activate</code><br/>
+注意：Tensorflow并不支持所有的Python版本，可以根据Tensorflow网站的版本说明，建立对应的VirtualEnv后，再安装Tensorflow。<br/>
+安装完后就可以使用了。</p>
+
+<h3 id="toc_4">删除Anaconda</h3>
+
+<ol>
+<li>删除Anaconda配置</li>
+</ol>
+
+<pre><code class="language-text">hostname:path$ conda install anaconda-clean #安装清理配置组件
+hostname:path$ anaconda-clean --yes #执行配置清理，提问全部默认回答yes
+Backup directory: /Users/username/.anaconda_backup/2019-01-11xxxxxx #配置备份文件名，也可以手动删掉
+hostname:path$ rm -r /Users/username/.anaconda_backup/2019-01-11xxxxxx
+</code></pre>
+
+<ol>
+<li>删除Anaconda的文件夹</li>
+</ol>
+
+<pre><code class="language-text">hostname:path$ rm -rf ~/Apps/anaconda3 #文件夹也可能是自己定义的位置
+</code></pre>
+
+<ol>
+<li>删除~/.bash_profile中的anaconda环境变量</li>
+<li>删除anaconda的可能存在隐藏的文件</li>
+</ol>
+
+<pre><code class="language-text">hostname:path$ rm -rf ~/.condarc ~/.conda ~/.continuum
+</code></pre>
 
 ]]></content>
   </entry>
