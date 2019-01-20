@@ -200,7 +200,12 @@
 注意：Tensorflow并不支持所有的Python版本，可以根据Tensorflow网站的版本说明，建立对应的VirtualEnv后，再安装Tensorflow。<br/>
 安装完后就可以使用了。</p>
 
-<h3 id="toc_4">删除Anaconda</h3>
+<h3 id="toc_4">安装Jupyter notebook</h3>
+
+<p>直接在Anaconda-Navigator中安装即可，不过如果是python 2.7，会有一个编码的bug让jupyter起不来。提示<code>UnicodeDecodeError: &#39;ascii&#39; codec can&#39;t decode byte 0xe5 in position 4: ordinal not in range(128)</code><br/>
+找了好久答案，终于发现一个issues说这个问题：<a href="https://github.com/jupyterlab/jupyterlab/issues/5345%E3%80%82%E6%8C%89%E7%85%A7%E6%8F%8F%E8%BF%B0%E5%9C%A8%E7%BB%88%E7%AB%AF%E9%87%8C%E6%89%A7%E8%A1%8C%60$LANG=zn">https://github.com/jupyterlab/jupyterlab/issues/5345。按照描述在终端里执行`$LANG=zn</a> jupyter-notebook`就可以启动正常。</p>
+
+<h3 id="toc_5">删除Anaconda</h3>
 
 <ol>
 <li>删除Anaconda配置</li>
